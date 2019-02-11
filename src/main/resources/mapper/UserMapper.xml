@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_addtime" property="userAddtime" jdbcType="VARCHAR"/>
+        <result column="user_primary_career_time" property="userPrimaryCareerTime" jdbcType="VARCHAR"/>
+        <result column="user_advanced_career_time" property="userAdvancedCareerTime" jdbcType="VARCHAR"/>
+        <result column="user_initiate_career_time" property="userInitiateCareerTime" jdbcType="VARCHAR"/>
+        <result column="last_login_time" property="lastLoginTime" jdbcType="VARCHAR"/>
+        <result column="login_IP" property="loginIp" jdbcType="VARCHAR"/>
+        <result column="user_shareid" property="userShareid" jdbcType="VARCHAR"/>
+        <result column="user_nick" property="userNick" jdbcType="VARCHAR"/>
+        <result column="user_password" property="userPassword" jdbcType="VARCHAR"/>
+        <result column="user_pay_password" property="userPayPassword" jdbcType="VARCHAR"/>
+        <result column="user_truename" property="userTruename" jdbcType="VARCHAR"/>
+        <result column="user_ID_number" property="userIdNumber" jdbcType="VARCHAR"/>
+        <result column="user_tel" property="userTel" jdbcType="VARCHAR"/>
+        <result column="user_alipay_account" property="userAlipayAccount" jdbcType="VARCHAR"/>
+        <result column="user_role" property="userRole" jdbcType="INTEGER"/>
+        <result column="user_profit_account" property="userProfitAccount" jdbcType="REAL"/>
+        <result column="user_personal_integral" property="userPersonalIntegral" jdbcType="INTEGER"/>
+        <result column="user_distribution_integral" property="userDistributionIntegral" jdbcType="INTEGER"/>
+        <result column="user_personal_month_integral" property="userPersonalMonthIntegral" jdbcType="INTEGER"/>
+        <result column="user_personal_lastmonth_integral" property="userPersonalLastmonthIntegral" jdbcType="INTEGER"/>
+        <result column="user_sharprofit_count" property="userSharprofitCount" jdbcType="REAL"/>
+        <result column="user_sharprofit_month" property="userSharprofitMonth" jdbcType="REAL"/>
+        <result column="user_status" property="userStatus" jdbcType="INTEGER"/>
+        <result column="parent_shareid" property="parentShareid" jdbcType="VARCHAR"/>
+        <result column="agreement_level" property="agreementLevel" jdbcType="INTEGER"/>
+        <result column="qr_code_url" property="qrCodeUrl" jdbcType="VARCHAR"/>
+        <result column="year_profit_continuous_month" property="yearProfitContinuousMonth" jdbcType="INTEGER"/>
+        <result column="user_check_integral" property="userCheckIntegral" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <resultMap id="BaseResultMap2" type="com.hrtxn.flchappinessmall.pojo.pojoVo.UserVo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_addtime" property="userAddtime" jdbcType="VARCHAR"/>
+        <result column="user_primary_career_time" property="userPrimaryCareerTime" jdbcType="VARCHAR"/>
+        <result column="user_advanced_career_time" property="userAdvancedCareerTime" jdbcType="VARCHAR"/>
+        <result column="user_initiate_career_time" property="userInitiateCareerTime" jdbcType="VARCHAR"/>
+        <result column="last_login_time" property="lastLoginTime" jdbcType="VARCHAR"/>
+        <result column="login_IP" property="loginIp" jdbcType="VARCHAR"/>
+        <result column="user_shareid" property="userShareid" jdbcType="VARCHAR"/>
+        <result column="user_nick" property="userNick" jdbcType="VARCHAR"/>
+        <result column="user_password" property="userPassword" jdbcType="VARCHAR"/>
+        <result column="user_pay_password" property="userPayPassword" jdbcType="VARCHAR"/>
+        <result column="user_truename" property="userTruename" jdbcType="VARCHAR"/>
+        <result column="user_ID_number" property="userIdNumber" jdbcType="VARCHAR"/>
+        <result column="user_tel" property="userTel" jdbcType="VARCHAR"/>
+        <result column="user_alipay_account" property="userAlipayAccount" jdbcType="VARCHAR"/>
+        <result column="user_role" property="userRole" jdbcType="INTEGER"/>
+        <result column="user_profit_account" property="userProfitAccount" jdbcType="REAL"/>
+        <result column="user_personal_integral" property="userPersonalIntegral" jdbcType="INTEGER"/>
+        <result column="user_distribution_integral" property="userDistributionIntegral" jdbcType="INTEGER"/>
+        <result column="user_personal_month_integral" property="userPersonalMonthIntegral" jdbcType="INTEGER"/>
+        <result column="user_personal_lastmonth_integral" property="userPersonalLastmonthIntegral" jdbcType="INTEGER"/>
+        <result column="user_sharprofit_count" property="userSharprofitCount" jdbcType="REAL"/>
+        <result column="user_sharprofit_month" property="userSharprofitMonth" jdbcType="REAL"/>
+        <result column="user_status" property="userStatus" jdbcType="INTEGER"/>
+        <result column="parent_shareid" property="parentShareid" jdbcType="VARCHAR"/>
+        <result column="agreement_level" property="agreementLevel" jdbcType="INTEGER"/>
+        <result column="qr_code_url" property="qrCodeUrl" jdbcType="VARCHAR"/>
+        <result column="year_profit_continuous_month" property="yearProfitContinuousMonth" jdbcType="INTEGER"/>
+        <result column="user_check_integral" property="userCheckIntegral" jdbcType="INTEGER"/>
+        <collection property="store" ofType="com.hrtxn.flchappinessmall.pojo.Store" column="storeid">
+            <id column="storeid" property="id" jdbcType="INTEGER"/>
+            <result column="store_addtime" property="storeAddtime" jdbcType="VARCHAR"/>
+            <result column="company" property="company" jdbcType="VARCHAR"/>
+            <result column="business_license_photograph" property="businessLicensePhotograph" jdbcType="VARCHAR"/>
+            <result column="registered_capital" property="registeredCapital" jdbcType="INTEGER"/>
+            <result column="registered_number" property="registeredNumber" jdbcType="VARCHAR"/>
+            <result column="social_credit_code" property="socialCreditCode" jdbcType="VARCHAR"/>
+            <result column="company_establishment_date" property="companyEstablishmentDate" jdbcType="VARCHAR"/>
+            <result column="operating_period" property="operatingPeriod" jdbcType="VARCHAR"/>
+            <result column="approval_date" property="approvalDate" jdbcType="VARCHAR"/>
+            <result column="company_registered_address" property="companyRegisteredAddress" jdbcType="VARCHAR"/>
+            <result column="legal_person_name" property="legalPersonName" jdbcType="VARCHAR"/>
+            <result column="legal_person_ID_code" property="legalPersonIdCode" jdbcType="VARCHAR"/>
+            <result column="legal_person_code_front_photo" property="legalPersonCodeFrontPhoto" jdbcType="VARCHAR"/>
+            <result column="legal_person_code_reverse_photo" property="legalPersonCodeReversePhoto" jdbcType="VARCHAR"/>
+            <result column="card_count" property="cardCount" jdbcType="VARCHAR"/>
+            <result column="card_name" property="cardName" jdbcType="VARCHAR"/>
+            <result column="card_open_account_photo" property="cardOpenAccountPhoto" jdbcType="VARCHAR"/>
+            <result column="card_open_account_address" property="cardOpenAccountAddress" jdbcType="VARCHAR"/>
+            <result column="company_permanent_address" property="companyPermanentAddress" jdbcType="VARCHAR"/>
+            <result column="trade_mark_name" property="tradeMarkName" jdbcType="VARCHAR"/>
+            <result column="trade_mark_regist_people" property="tradeMarkRegistPeople" jdbcType="VARCHAR"/>
+            <result column="trade_mark_regist_photo" property="tradeMarkRegistPhoto" jdbcType="VARCHAR"/>
+            <result column="trade_mark_authorization_photo" property="tradeMarkAuthorizationPhoto" jdbcType="VARCHAR"/>
+            <result column="production_license_number" property="productionLicenseNumber" jdbcType="VARCHAR"/>
+            <result column="production_license_valid_date" property="productionLicenseValidDate" jdbcType="VARCHAR"/>
+            <result column="production_license_photo" property="productionLicensePhoto" jdbcType="VARCHAR"/>
+            <result column="business_license_number" property="businessLicenseNumber" jdbcType="VARCHAR"/>
+            <result column="business_license_valid_date" property="businessLicenseValidDate" jdbcType="VARCHAR"/>
+            <result column="business_license_photo" property="businessLicensePhoto" jdbcType="VARCHAR"/>
+            <result column="actual_operator_name" property="actualOperatorName" jdbcType="VARCHAR"/>
+            <result column="actual_operator_qq" property="actualOperatorQq" jdbcType="VARCHAR"/>
+            <result column="actual_operator_weixin" property="actualOperatorWeixin" jdbcType="VARCHAR"/>
+            <result column="actual_operator_tel" property="actualOperatorTel" jdbcType="VARCHAR"/>
+            <result column="actual_operator_email" property="actualOperatorEmail" jdbcType="VARCHAR"/>
+            <result column="general_leader_name" property="generalLeaderName" jdbcType="VARCHAR"/>
+            <result column="general_leader_tel" property="generalLeaderTel" jdbcType="VARCHAR"/>
+            <result column="general_leader_weixin" property="generalLeaderWeixin" jdbcType="VARCHAR"/>
+            <result column="referrer_name" property="referrerName" jdbcType="VARCHAR"/>
+            <result column="referrer_level" property="referrerLevel" jdbcType="VARCHAR"/>
+            <result column="referrer_id" property="referrerId" jdbcType="VARCHAR"/>
+            <result column="referrer_tel" property="referrerTel" jdbcType="VARCHAR"/>
+            <result column="service_amount" property="serviceAmount" jdbcType="VARCHAR"/>
+            <result column="work_time" property="workTime" jdbcType="VARCHAR"/>
+            <result column="general_taxpayer_photo" property="generalTaxpayerPhoto" jdbcType="VARCHAR"/>
+            <result column="product_test_report_photo" property="productTestReportPhoto" jdbcType="VARCHAR"/>
+            <result column="store_name" property="storeName" jdbcType="VARCHAR"/>
+            <result column="store_contact_people" property="storeContactPeople" jdbcType="VARCHAR"/>
+            <result column="store_contact_people_tel" property="storeContactPeopleTel" jdbcType="VARCHAR"/>
+            <result column="server_qq" property="serverQq" jdbcType="VARCHAR"/>
+            <result column="store_logo" property="storeLogo" jdbcType="VARCHAR"/>
+            <result column="store_pay_password" property="storePayPassword" jdbcType="VARCHAR"/>
+            <result column="store_nick" property="storeNick" jdbcType="VARCHAR"/>
+            <result column="store_password" property="storePassword" jdbcType="VARCHAR"/>
+            <result column="store_number" property="storeNumber" jdbcType="VARCHAR"/>
+            <result column="store_status" property="storeStatus"/>
+            <result column="store_classify" property="storeClassify" jdbcType="INTEGER"/>
+            <result column="business_scope" property="businessScope" jdbcType="LONGVARCHAR"/>
+            <result column="store_introduce" property="storeIntroduce" jdbcType="LONGVARCHAR"/>
+            <result column="reject_reason" property="rejectReason" jdbcType="LONGVARCHAR"/>
+        </collection>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+		id, user_addtime, user_primary_career_time, user_advanced_career_time, user_initiate_career_time,
+		last_login_time, login_IP, user_shareid, user_nick, user_password, user_pay_password,
+		user_truename, user_ID_number, user_tel, user_alipay_account, user_role, user_profit_account,
+		user_personal_integral, user_distribution_integral, user_personal_month_integral,
+		user_personal_lastmonth_integral, user_sharprofit_count, user_sharprofit_month, user_status,
+		parent_shareid, agreement_level, qr_code_url, year_profit_continuous_month,user_check_integral
+  	</sql>
+    <sql id="Base_Column_List2">
+		tb_user.id as id,
+user_addtime,
+user_primary_career_time,
+user_advanced_career_time,
+user_initiate_career_time,
+last_login_time,
+login_IP,
+user_shareid,
+user_nick,
+user_password,
+user_pay_password,
+user_truename,
+user_ID_number,
+user_tel,
+user_alipay_account,
+user_role,
+user_check_integral,
+user_profit_account,
+user_personal_integral,
+user_distribution_integral,
+user_personal_month_integral,
+user_personal_lastmonth_integral,
+user_sharprofit_count,
+user_sharprofit_month,
+user_status,
+parent_shareid,
+agreement_level,
+qr_code_url,
+year_profit_continuous_month,
+user_head,
+tb_user.return_times,
+tb_store.id as storeid,
+store_addtime,
+company,
+business_license_photograph,
+registered_capital,
+registered_number,
+social_credit_code,
+company_establishment_date,
+operating_period,
+approval_date,
+company_registered_address,
+business_scope,
+legal_person_name,
+legal_person_id_code,
+legal_person_code_front_photo,
+legal_person_code_reverse_photo,
+card_count,
+card_name,
+card_open_account_photo,
+card_open_account_address,
+company_permanent_address,
+trade_mark_name,
+trade_mark_regist_people,
+trade_mark_regist_photo,
+trade_mark_authorization_photo,
+production_license_number,
+production_license_valid_date,
+production_license_photo,
+business_license_number,
+business_license_valid_date,
+business_license_photo,
+actual_operator_name,
+actual_operator_qq,
+actual_operator_weixin,
+actual_operator_tel,
+actual_operator_email,
+general_leader_name,
+general_leader_tel,
+general_leader_weixin,
+referrer_name,
+referrer_level,
+referrer_id,
+referrer_tel,
+service_amount,
+work_time,
+general_taxpayer_photo,
+product_test_report_photo,
+store_name,
+store_introduce,
+store_contact_people,
+store_contact_people_tel,
+server_qq,
+store_logo,
+store_pay_password,
+store_nick,
+store_password,
+store_number,
+store_status,
+reject_reason,
+force_close_reason,
+store_classify,
+role,
+store_account
+  	</sql>
+
+
+    <!--获取所有用户信息-->
+    <select id="getAllUserList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        tb_user
+        where user_status != -1
+    </select>
+
+    <!--获取所有用户信息  包含推荐店铺的信息-->
+    <select id="getAllUserList2" resultMap="BaseResultMap2">
+        SELECT
+        <include refid="Base_Column_List2"/>
+        FROM
+        tb_user
+        LEFT JOIN tb_store ON tb_user.user_shareid = tb_store.referrer_id
+        where user_status != -1
+    </select>
+
+    <!--根据ID获取某一个用户的信息-->
+    <select id="getUserMSGByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        tb_user
+        WHERE
+        user_status != -1 AND id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!--根据电话号码获取某一个用户的信息-->
+    <select id="getUserMSGByUserTel" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        tb_user
+        WHERE
+        user_tel = #{userTel,jdbcType=INTEGER}
+    </select>
+
+    <!--添加用户信息-->
+    <insert id="add_user" parameterType="com.hrtxn.flchappinessmall.pojo.User" useGeneratedKeys="true" keyProperty="id"
+            keyColumn="id">
+        insert into tb_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userAddtime != null">
+                user_addtime,
+            </if>
+            <if test="userPrimaryCareerTime != null">
+                user_primary_career_time,
+            </if>
+            <if test="userAdvancedCareerTime != null">
+                user_advanced_career_time,
+            </if>
+            <if test="userInitiateCareerTime != null">
+                user_initiate_career_time,
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time,
+            </if>
+            <if test="loginIp != null">
+                login_IP,
+            </if>
+            <if test="userShareid != null">
+                user_shareid,
+            </if>
+            <if test="userNick != null">
+                user_nick,
+            </if>
+            <if test="userPassword != null">
+                user_password,
+            </if>
+            <if test="userPayPassword != null">
+                user_pay_password,
+            </if>
+            <if test="userTruename != null">
+                user_truename,
+            </if>
+            <if test="userIdNumber != null">
+                user_ID_number,
+            </if>
+            <if test="userTel != null">
+                user_tel,
+            </if>
+            <if test="userAlipayAccount != null">
+                user_alipay_account,
+            </if>
+            <if test="userRole != null">
+                user_role,
+            </if>
+            <if test="userProfitAccount != null">
+                user_profit_account,
+            </if>
+            <if test="userPersonalIntegral != null">
+                user_personal_integral,
+            </if>
+            <if test="userDistributionIntegral != null">
+                user_distribution_integral,
+            </if>
+            <if test="userPersonalMonthIntegral != null">
+                user_personal_month_integral,
+            </if>
+            <if test="userPersonalLastmonthIntegral != null">
+                user_personal_lastmonth_integral,
+            </if>
+            <if test="userSharprofitCount != null">
+                user_sharprofit_count,
+            </if>
+            <if test="userSharprofitMonth != null">
+                user_sharprofit_month,
+            </if>
+            <if test="userStatus != null">
+                user_status,
+            </if>
+            <if test="parentShareid != null">
+                parent_shareid,
+            </if>
+            <if test="agreementLevel != null">
+                agreement_level,
+            </if>
+            <if test="qrCodeUrl != null">
+                qr_code_url,
+            </if>
+            <if test="yearProfitContinuousMonth != null">
+                year_profit_continuous_month,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userAddtime != null">
+                #{userAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="userPrimaryCareerTime != null">
+                #{userPrimaryCareerTime,jdbcType=VARCHAR},
+            </if>
+            <if test="userAdvancedCareerTime != null">
+                #{userAdvancedCareerTime,jdbcType=VARCHAR},
+            </if>
+            <if test="userInitiateCareerTime != null">
+                #{userInitiateCareerTime,jdbcType=VARCHAR},
+            </if>
+            <if test="lastLoginTime != null">
+                #{lastLoginTime,jdbcType=VARCHAR},
+            </if>
+            <if test="loginIp != null">
+                #{loginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="userShareid != null">
+                #{userShareid,jdbcType=VARCHAR},
+            </if>
+            <if test="userNick != null">
+                #{userNick,jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null">
+                #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userPayPassword != null">
+                #{userPayPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userTruename != null">
+                #{userTruename,jdbcType=VARCHAR},
+            </if>
+            <if test="userIdNumber != null">
+                #{userIdNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="userTel != null">
+                #{userTel,jdbcType=VARCHAR},
+            </if>
+            <if test="userAlipayAccount != null">
+                #{userAlipayAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="userRole != null">
+                #{userRole,jdbcType=INTEGER},
+            </if>
+            <if test="userProfitAccount != null">
+                #{userProfitAccount,jdbcType=REAL},
+            </if>
+            <if test="userPersonalIntegral != null">
+                #{userPersonalIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="userDistributionIntegral != null">
+                #{userDistributionIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="userPersonalMonthIntegral != null">
+                #{userPersonalMonthIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="userPersonalLastmonthIntegral != null">
+                #{userPersonalLastmonthIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="userSharprofitCount != null">
+                #{userSharprofitCount,jdbcType=REAL},
+            </if>
+            <if test="userSharprofitMonth != null">
+                #{userSharprofitMonth,jdbcType=REAL},
+            </if>
+            <if test="userStatus != null">
+                #{userStatus,jdbcType=INTEGER},
+            </if>
+            <if test="parentShareid != null">
+                #{parentShareid,jdbcType=VARCHAR},
+            </if>
+            <if test="agreementLevel != null">
+                #{agreementLevel,jdbcType=INTEGER},
+            </if>
+            <if test="qrCodeUrl != null">
+                #{qrCodeUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="yearProfitContinuousMonth != null">
+                #{yearProfitContinuousMonth,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--根据id修改用户的信息-->
+    <update id="update_user" parameterType="com.hrtxn.flchappinessmall.pojo.User">
+        update tb_user
+        <set>
+            <if test="userAddtime != null">
+                user_addtime = #{userAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="userPrimaryCareerTime != null">
+                user_primary_career_time = #{userPrimaryCareerTime,jdbcType=VARCHAR},
+            </if>
+            <if test="userAdvancedCareerTime != null">
+                user_advanced_career_time = #{userAdvancedCareerTime,jdbcType=VARCHAR},
+            </if>
+            <if test="userInitiateCareerTime != null">
+                user_initiate_career_time = #{userInitiateCareerTime,jdbcType=VARCHAR},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime,jdbcType=VARCHAR},
+            </if>
+            <if test="loginIp != null">
+                login_IP = #{loginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="userShareid != null">
+                user_shareid = #{userShareid,jdbcType=VARCHAR},
+            </if>
+            <if test="userNick != null">
+                user_nick = #{userNick,jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null">
+                user_password = #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userPayPassword != null">
+                user_pay_password = #{userPayPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userTruename != null">
+                user_truename = #{userTruename,jdbcType=VARCHAR},
+            </if>
+            <if test="userIdNumber != null">
+                user_ID_number = #{userIdNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="userTel != null">
+                user_tel = #{userTel,jdbcType=VARCHAR},
+            </if>
+            <if test="userAlipayAccount != null">
+                user_alipay_account = #{userAlipayAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="userRole != null">
+                user_role = #{userRole,jdbcType=INTEGER},
+            </if>
+            <if test="userProfitAccount != null">
+                user_profit_account = #{userProfitAccount,jdbcType=REAL},
+            </if>
+            <if test="userPersonalIntegral != null">
+                user_personal_integral = #{userPersonalIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="userDistributionIntegral != null">
+                user_distribution_integral = #{userDistributionIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="userPersonalMonthIntegral != null">
+                user_personal_month_integral = #{userPersonalMonthIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="userPersonalLastmonthIntegral != null">
+                user_personal_lastmonth_integral = #{userPersonalLastmonthIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="userSharprofitCount != null">
+                user_sharprofit_count = #{userSharprofitCount,jdbcType=REAL},
+            </if>
+            <if test="userSharprofitMonth != null">
+                user_sharprofit_month = #{userSharprofitMonth,jdbcType=REAL},
+            </if>
+            <if test="userStatus != null">
+                user_status = #{userStatus,jdbcType=INTEGER},
+            </if>
+            <if test="parentShareid != null">
+                parent_shareid = #{parentShareid,jdbcType=VARCHAR},
+            </if>
+            <if test="agreementLevel != null">
+                agreement_level = #{agreementLevel,jdbcType=INTEGER},
+            </if>
+            <if test="qrCodeUrl != null">
+                qr_code_url = #{qrCodeUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="yearProfitContinuousMonth != null">
+                year_profit_continuous_month = #{yearProfitContinuousMonth,jdbcType=INTEGER},
+            </if>
+            <if test="userCheckIntegral != null">
+                user_check_integral = #{userCheckIntegral,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--获取分销商-->
+    <select id="getDownLevelUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        tb_user
+        WHERE
+        user_status != -1 AND parent_shareid = #{userShareid,jdbcType=VARCHAR}
+    </select>
+
+    <!--获取用户各角色总人数-->
+    <select id="getUserCountByGroup" resultType="com.hrtxn.flchappinessmall.pojo.pojoVo.UserCountVo">
+        SELECT
+            user_role AS userRole,COUNT(user_role) AS userCount
+        FROM
+            tb_user
+        WHERE
+          user_status != -1
+        GROUP BY
+            user_role
+    </select>
+
+</mapper>

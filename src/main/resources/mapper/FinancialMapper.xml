@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.FinancialMapper">
+
+    <!--获取符合符合日分红发放的用户-->
+    <select id="getUserDayProfit" resultType="com.hrtxn.flchappinessmall.pojo.User">
+        SELECT id as id,user_nick AS userNick,user_role AS userRole,user_tel AS userTel FROM tb_user
+        WHERE user_status != -1 AND user_role = #{flag} AND user_personal_lastmonth_integral >= #{personalIntegral}
+    </select>
+
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.RefundMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.RefundLog">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="application_time" property="applicationTime" jdbcType="VARCHAR"/>
+        <result column="finish_time" property="finishTime" jdbcType="VARCHAR"/>
+        <result column="refund_type" property="refundType" jdbcType="INTEGER"/>
+        <result column="order_num" property="orderNum" jdbcType="VARCHAR"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="store_id" property="storeId" jdbcType="INTEGER"/>
+        <result column="refund_big_status" property="refundBigStatus" jdbcType="INTEGER"/>
+        <result column="refund_small_status" property="refundSmallStatus" jdbcType="INTEGER"/>
+        <result column="refund_money" property="refundMoney" jdbcType="REAL"/>
+        <result column="logistics_company" property="logisticsCompany" jdbcType="VARCHAR"/>
+        <result column="logistics_num" property="logisticsNum" jdbcType="VARCHAR"/>
+        <result column="reasons" property="reasons" jdbcType="VARCHAR"/>
+        <result column="msg" property="msg" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, application_time, finish_time, refund_type, order_num, goods_id, store_id, refund_big_status,
+        refund_small_status, refund_money, logistics_company, logistics_num,reasons,msg
+    </sql>
+
+    <!--根据订单编号获取退款信息-->
+    <select id="getRefundLogByOrderNum" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT <include refid="Base_Column_List"/> FROM tb_refund_log WHERE order_num = #{orderNum,jdbcType=VARCHAR}
+    </select>
+
+    <!--获取退款金额-->
+    <select id="getAllRefundMoney" resultType="java.lang.String">
+        SELECT FORMAT(SUM(refund_money),2) FROM tb_refund_log
+    </select>
+
+
+
+
+
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.hrtxn.flchappinessmall.pojo.RefundLog">
+        update tb_refund_log
+        <set>
+            <if test="applicationTime != null">
+                application_time = #{applicationTime,jdbcType=VARCHAR},
+            </if>
+            <if test="finishTime != null">
+                finish_time = #{finishTime,jdbcType=VARCHAR},
+            </if>
+            <if test="refundType != null">
+                refund_type = #{refundType,jdbcType=INTEGER},
+            </if>
+            <if test="orderNum != null">
+                order_num = #{orderNum,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{goodsId,jdbcType=INTEGER},
+            </if>
+            <if test="storeId != null">
+                store_id = #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="refundBigStatus != null">
+                refund_big_status = #{refundBigStatus,jdbcType=INTEGER},
+            </if>
+            <if test="refundSmallStatus != null">
+                refund_small_status = #{refundSmallStatus,jdbcType=INTEGER},
+            </if>
+            <if test="refundMoney != null">
+                refund_money = #{refundMoney,jdbcType=REAL},
+            </if>
+            <if test="logisticsCompany != null">
+                logistics_company = #{logisticsCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsNum != null">
+                logistics_num = #{logisticsNum,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.ShareProfitWithdrawLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.ShareProfitWithdrawLog">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="withdraw_addtime" property="withdrawAddtime" jdbcType="VARCHAR"/>
+        <result column="withdraw_type" property="withdrawType" jdbcType="VARCHAR"/>
+        <result column="withdraw_account" property="withdrawAccount" jdbcType="VARCHAR"/>
+        <result column="withdraw_money" property="withdrawMoney" jdbcType="REAL"/>
+        <result column="withdraw_approve_time" property="withdrawApproveTime" jdbcType="VARCHAR"/>
+        <result column="withdraw_handlers" property="withdrawHandlers" jdbcType="VARCHAR"/>
+        <result column="withdraw_status" property="withdrawStatus" jdbcType="INTEGER"/>
+        <result column="withdraw_reject_reason" property="withdrawRejectReason" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, withdraw_addtime, withdraw_type, withdraw_account, withdraw_money, withdraw_approve_time,
+        withdraw_handlers, withdraw_status,withdraw_reject_reason
+    </sql>
+
+    <!--获取分润提现记录-->
+    <select id="getProfitWithdrawal" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT ts.id,user_id,withdraw_addtime, withdraw_type, withdraw_account, withdraw_money, withdraw_approve_time,
+               withdraw_handlers, withdraw_status,withdraw_reject_reason,tu.user_nick AS userNick,tu.user_tel AS userTel
+        FROM tb_share_profit_withdraw_log ts INNER JOIN tb_user tu ON ts.user_id = tu.id
+        WHERE withdraw_status = 1
+    </select>
+
+    <!--获取分润已操作记录-->
+    <select id="getShareProfitWithdrawLog" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT ts.id,user_id,withdraw_addtime, withdraw_type, withdraw_account, withdraw_money, withdraw_approve_time,
+               withdraw_handlers, withdraw_status,withdraw_reject_reason,tu.user_nick AS userNick,tu.user_tel AS userTel
+        FROM tb_share_profit_withdraw_log ts INNER JOIN tb_user tu ON ts.user_id = tu.id
+        WHERE withdraw_status != 1
+    </select>
+
+    <update id="update_shareProfitWithdrawLog" parameterType="com.hrtxn.flchappinessmall.pojo.ShareProfitWithdrawLog">
+        update tb_share_profit_withdraw_log
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="withdrawAddtime != null">
+                withdraw_addtime = #{withdrawAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="withdrawType != null">
+                withdraw_type = #{withdrawType,jdbcType=VARCHAR},
+            </if>
+            <if test="withdrawAccount != null">
+                withdraw_account = #{withdrawAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="withdrawMoney != null">
+                withdraw_money = #{withdrawMoney,jdbcType=REAL},
+            </if>
+            <if test="withdrawApproveTime != null">
+                withdraw_approve_time = #{withdrawApproveTime,jdbcType=VARCHAR},
+            </if>
+            <if test="withdrawHandlers != null">
+                withdraw_handlers = #{withdrawHandlers,jdbcType=VARCHAR},
+            </if>
+            <if test="withdrawStatus != null">
+                withdraw_status = #{withdrawStatus,jdbcType=INTEGER},
+            </if>
+            <if test="withdrawRejectReason != null">
+                withdraw_reject_reason = #{withdrawRejectReason,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

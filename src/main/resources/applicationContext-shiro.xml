@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd 
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd 
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd ">
+
+	<!-- 配置 jdbcRealm -->
+	<bean id="jdbcRealm" class="org.apache.shiro.realm.jdbc.JdbcRealm">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="authenticationQuery" value="select password from t_user where username=?"></property>
+		<property name="userRolesQuery">
+			<value>
+			    select r.rolename from t_user u left join t_user_role ur on
+				u.id = ur.user_id left join t_roles r on ur.role_id=r.id where
+				u.name =?
+			</value>
+		</property>
+		<property name="permissionsQuery">
+			<value>
+			    select p.permissionname from t_roles r left join
+				t_role_permission rp on r.id = rp.role_id left join t_permissions p
+				on p.id = rp.permission_id where r.rolename=?
+			</value>
+		</property>
+		<!-- 默认不会加载权限信息,需要配置为true -->
+		<property name="permissionsLookupEnabled" value="true"></property>
+	</bean>
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="jdbcRealm"></property>
+	</bean>
+
+	<!-- bean Id需要和web.xml中的filter名称保持一致 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<!-- 要求登录时的链接页面 -->
+		<property name="loginUrl" value="/showLogin" />
+		<property name="filterChainDefinitions">
+			<value>
+			   /aaa/bbb = authc<!-- ,roles[tyh], perms[user:read] -->
+			</value>
+		</property>
+	</bean>
+
+
+</beans>

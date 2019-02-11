@@ -1,0 +1,774 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.GoodsMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.Goods">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_addtime" property="goodsAddtime" jdbcType="VARCHAR"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_parameter" property="goodsParameter" jdbcType="VARCHAR"/>
+        <result column="goods_photo" property="goodsPhoto" jdbcType="VARCHAR"/>
+        <result column="brand_id" property="brandId" jdbcType="INTEGER"/>
+        <result column="one_classifyid" property="oneClassifyid" jdbcType="INTEGER"/>
+        <result column="two_classifyid" property="twoClassifyid" jdbcType="INTEGER"/>
+        <result column="three_classifyid" property="threeClassifyid" jdbcType="INTEGER"/>
+        <result column="goods_inventory" property="goodsInventory" jdbcType="INTEGER"/>
+        <result column="goods_weight" property="goodsWeight" jdbcType="REAL"/>
+        <result column="goods_dispatch_place" property="goodsDispatchPlace" jdbcType="VARCHAR"/>
+        <result column="goods_sales_volume" property="goodsSalesVolume" jdbcType="INTEGER"/>
+        <result column="invoice_issupport_flag" property="invoiceIssupportFlag" jdbcType="INTEGER"/>
+        <result column="goods_status" property="goodsStatus" jdbcType="INTEGER"/>
+        <result column="goods_zone" property="goodsZone" jdbcType="INTEGER"/>
+        <result column="goods_supply_price" property="goodsSupplyPrice" jdbcType="REAL"/>
+        <result column="goods_retail_price" property="goodsRetailPrice" jdbcType="REAL"/>
+        <result column="goods_integral" property="goodsIntegral" jdbcType="INTEGER"/>
+        <result column="goods_taxes" property="goodsTaxes" jdbcType="REAL"/>
+        <result column="goods_freight" property="goodsFreight" jdbcType="REAL"/>
+        <result column="store_id" property="storeId" jdbcType="INTEGER"/>
+        <result column="store_isbelong_new_flag" property="storeIsbelongNewFlag" jdbcType="INTEGER"/>
+        <result column="store_isbelong_hot_flag" property="storeIsbelongHotFlag" jdbcType="INTEGER"/>
+        <result column="plate_isbelong_new_flag" property="plateIsbelongNewFlag" jdbcType="INTEGER"/>
+        <result column="plate_isbelong_hot_flag" property="plateIsbelongHotFlag" jdbcType="INTEGER"/>
+        <result column="force_sold_out_reason" property="forceSoldOutReason"/>
+        <result column="reject_reason" property="rejectReason"/>
+    </resultMap>
+
+    <resultMap id="ResultMapWithBLOBs" type="com.hrtxn.flchappinessmall.pojo.Goods" extends="BaseResultMap">
+        <result column="goods_details" property="goodsDetails" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <!--==============以上为自动生成代码map==============-->
+
+    <resultMap id="goodsResultMap" type="com.hrtxn.flchappinessmall.pojo.pojoVo.GoodsVo" extends="BaseResultMap">
+        <result column="goods_details" property="goodsDetails" jdbcType="LONGVARCHAR"/>
+        <result column="threeClassifyName" property="threeClassifyName"/>
+        <result column="twoClassifyName" property="twoClassifyName"/>
+        <result column="threeClassifyName" property="threeClassifyName"/>
+        <result column="oneClassifyName" property="oneClassifyName"/>
+        <result column="storeName" property="storeName"/>
+        <result column="brandName" property="brandName"/>
+    </resultMap>
+
+
+    <sql id="goodsPojoVoSql">
+    tb_goods.id id,
+    tb_goods.goods_addtime AS goods_addtime,
+    tb_goods.goods_name AS goods_name,
+    tb_goods.goods_parameter AS goods_parameter,
+    tb_goods.goods_photo AS goods_photo,
+    tb_goods.goods_details AS goods_details,
+    tb_goods.brand_id AS brand_id,
+    tb_goods.one_classifyid AS one_classifyid,
+    tb_goods.two_classifyid AS two_classifyid,
+    tb_goods.three_classifyid AS three_classifyid,
+    tb_goods.goods_inventory AS goods_inventory,
+    tb_goods.goods_weight AS goods_weight,
+    tb_goods.goods_dispatch_place AS goods_dispatch_place,
+    tb_goods.goods_sales_volume AS goods_sales_volume,
+    tb_goods.invoice_issupport_flag AS invoice_issupport_flag,
+    tb_goods.goods_status AS goods_status,
+    tb_goods.goods_zone AS goods_zone,
+    tb_goods.goods_supply_price AS goods_supply_price,
+    tb_goods.goods_retail_price AS goods_retail_price,
+    tb_goods.goods_integral AS goods_integral,
+    tb_goods.goods_taxes AS goods_taxes,
+    tb_goods.goods_freight AS goods_freight,
+    tb_goods.store_id AS store_id,
+    tb_goods.store_isbelong_new_flag AS store_isbelong_new_flag,
+    tb_goods.store_isbelong_hot_flag AS store_isbelong_hot_flag,
+    tb_goods.plate_isbelong_new_flag AS plate_isbelong_new_flag,
+    tb_goods.plate_isbelong_hot_flag AS plate_isbelong_hot_flag,
+    tb_goods.force_sold_out_reason AS force_sold_out_reason,
+    tb_goods.reject_reason AS reject_reason,
+    tcth.id,
+    tcth.classify_addtime,
+    tcth.classify_name AS threeClassifyName,
+    tcth.classify_level,
+    tcth.classify_parentid,
+    tcth.classify_logo,
+    tcth.classify_type,
+    tcth.classify_description,
+    tct.id,
+    tct.classify_addtime,
+    tct.classify_name AS twoClassifyName,
+    tct.classify_level,
+    tct.classify_parentid,
+    tct.classify_logo,
+    tct.classify_type,
+    tct.classify_description,
+    tco.id,
+    tco.classify_addtime,
+    tco.classify_name AS oneClassifyName,
+    tco.classify_level,
+    tco.classify_parentid,
+    tco.classify_logo,
+    tco.classify_type,
+    tco.classify_description,
+    ts.id,
+    ts.store_addtime,
+    ts.company,
+    ts.business_license_photograph,
+    ts.registered_capital,
+    ts.registered_number,
+    ts.social_credit_code,
+    ts.company_establishment_date,
+    ts.operating_period,
+    ts.approval_date,
+    ts.company_registered_address,
+    ts.business_scope,
+    ts.legal_person_name,
+    ts.legal_person_ID_code,
+    ts.legal_person_code_front_photo,
+    ts.legal_person_code_reverse_photo,
+    ts.card_count,
+    ts.card_name,
+    ts.card_open_account_photo,
+    ts.card_open_account_address,
+    ts.company_permanent_address,
+    ts.trade_mark_name,
+    ts.trade_mark_regist_people,
+    ts.trade_mark_regist_photo,
+    ts.trade_mark_authorization_photo,
+    ts.production_license_number,
+    ts.production_license_valid_date,
+    ts.production_license_photo,
+    ts.business_license_number,
+    ts.business_license_valid_date,
+    ts.business_license_photo,
+    ts.actual_operator_name,
+    ts.actual_operator_qq,
+    ts.actual_operator_weixin,
+    ts.actual_operator_tel,
+    ts.actual_operator_email,
+    ts.general_leader_name,
+    ts.general_leader_tel,
+    ts.general_leader_weixin,
+    ts.referrer_name,
+    ts.referrer_level,
+    ts.referrer_id,
+    ts.referrer_tel,
+    ts.service_amount,
+    ts.work_time,
+    ts.general_taxpayer_photo,
+    ts.product_test_report_photo,
+    ts.store_name AS storeName,
+    ts.store_introduce,
+    ts.store_contact_people,
+    ts.store_contact_people_tel,
+    ts.server_qq,
+    ts.store_logo,
+    ts.store_pay_password,
+    ts.store_nick,
+    ts.store_password,
+    ts.store_number,
+    ts.store_status,
+    ts.reject_reason,
+    ts.force_close_reason,
+    ts.store_classify,
+    tb.id,
+    tb.brand_addtime,
+    tb.brand_name AS brandName,
+    tb.brand_logo,
+    tb.brand_type,
+    tb.brand_description
+  </sql>
+
+
+    <sql id="Base_Column_List">
+    id, goods_addtime, goods_name, goods_parameter, goods_photo, brand_id, one_classifyid, 
+    two_classifyid, three_classifyid, goods_inventory, goods_weight, goods_dispatch_place, 
+    goods_sales_volume, invoice_issupport_flag, goods_status, goods_zone, goods_supply_price, 
+    goods_retail_price, goods_integral, goods_taxes, goods_freight, store_id, store_isbelong_new_flag, 
+    store_isbelong_hot_flag, plate_isbelong_new_flag, plate_isbelong_hot_flag,force_sold_out_reason,reject_reason
+  </sql>
+    <sql id="Blob_Column_List">
+    goods_details
+  </sql>
+
+    <!--获取指定状态的商品-->
+
+    <!--  <select id="getGoodsList" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from tb_goods
+        where goods_status = #{status,jdbcType=INTEGER}
+      </select>-->
+
+
+    <!--获取指定2营销中/3下架/4违规下架状态产品-->
+    <select id="selectStatusAll" resultMap="goodsResultMap">
+        select
+        <include refid="goodsPojoVoSql"/>
+        from tb_goods
+        LEFT JOIN tb_classify AS tcth ON tb_goods.three_classifyid = tcth.id
+        left JOIN tb_classify AS tct ON tcth.classify_parentid = tct.id
+        left JOIN tb_classify AS tco ON tct.classify_parentid = tco.id
+        left JOIN tb_store AS ts ON tb_goods.store_id = ts.id
+        left JOIN tb_brand AS tb ON tb_goods.brand_id = tb.id
+        WHERE
+        tb_goods.goods_status =2
+        OR
+        tb_goods.goods_status =3
+        OR
+        tb_goods.goods_status =4
+    </select>
+
+    <!--获取被驳回产品的列表-->
+    <select id="selectReject" resultMap="goodsResultMap">
+        select
+        <include refid="goodsPojoVoSql"/>
+        from tb_goods
+        LEFT JOIN tb_classify AS tcth ON tb_goods.three_classifyid = tcth.id
+        INNER JOIN tb_classify AS tct ON tcth.classify_parentid = tct.id
+        INNER JOIN tb_classify AS tco ON tct.classify_parentid = tco.id
+        INNER JOIN tb_store AS ts ON tb_goods.store_id = ts.id
+        INNER JOIN tb_brand AS tb ON tb_goods.brand_id = tb.id
+        WHERE
+        tb_goods.goods_status =5
+    </select>
+
+    <!--获取各个一级分类下的产品数量 不包含删除状态 和申请状态-->
+    <select id="selectIsClassiyOneGoodsCount" resultType="com.hrtxn.flchappinessmall.pojo.pojoVo.GoodsVo">
+        SELECT
+              tb_classify.classify_name AS oneClassifyName,
+        Count(tb_goods.id)              AS isClassiyOneGoodsCount
+        FROM
+          tb_goods
+        left JOIN tb_classify           ON tb_goods.one_classifyid = tb_classify.id
+        WHERE
+        tb_goods.goods_status =2
+        OR
+        tb_goods.goods_status =3
+        OR
+        tb_goods.goods_status =4
+GROUP BY
+tb_goods.one_classifyid
+    </select>
+
+
+    <!--获取指定状态的商品-->
+    <select id="getGoodsList" resultMap="goodsResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="goodsPojoVoSql"/>
+        from tb_goods
+        LEFT JOIN tb_classify AS tcth ON tb_goods.three_classifyid = tcth.id
+        INNER JOIN tb_classify AS tct ON tcth.classify_parentid = tct.id
+        INNER JOIN tb_classify AS tco ON tct.classify_parentid = tco.id
+        INNER JOIN tb_store AS ts ON tb_goods.store_id = ts.id
+        INNER JOIN tb_brand AS tb ON tb_goods.brand_id = tb.id
+        WHERE
+        tb_goods.goods_status = #{status,jdbcType=INTEGER}
+    </select>
+
+
+    <!--根据品牌Id获取商品-->
+    <select id="selectByBrandId" resultMap="goodsResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="goodsPojoVoSql"/>
+        from tb_goods
+        LEFT JOIN tb_classify AS tcth ON tb_goods.three_classifyid = tcth.id
+        INNER JOIN tb_classify AS tct ON tcth.classify_parentid = tct.id
+        INNER JOIN tb_classify AS tco ON tct.classify_parentid = tco.id
+        INNER JOIN tb_store AS ts ON tb_goods.store_id = ts.id
+        INNER JOIN tb_brand AS tb ON tb_goods.brand_id = tb.id
+        WHERE
+        tb_goods.brand_id = #{brandId,jdbcType=INTEGER}
+    </select>
+
+    <!--根据品牌Id获取商品 商品状态:销售中-->
+
+    <!--根据id获取产品-->
+    <select id="selectGoodsById" resultMap="goodsResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="goodsPojoVoSql"/>
+        from tb_goods
+        LEFT JOIN tb_classify AS tcth ON tb_goods.three_classifyid = tcth.id
+        INNER JOIN tb_classify AS tct ON tcth.classify_parentid = tct.id
+        INNER JOIN tb_classify AS tco ON tct.classify_parentid = tco.id
+        INNER JOIN tb_store AS ts ON tb_goods.store_id = ts.id
+        INNER JOIN tb_brand AS tb ON tb_goods.brand_id = tb.id
+        WHERE
+        tb_goods.id = #{id,jdbcType=INTEGER}
+    </select>
+
+
+    <!--根据一级分类id 获取产品  不包含删除状态-->
+    <select id="selectGoodsByOneClassifyId" resultMap="goodsResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="goodsPojoVoSql"/>
+        from tb_goods
+        LEFT JOIN tb_classify AS tcth ON tb_goods.three_classifyid = tcth.id
+        INNER JOIN tb_classify AS tct ON tcth.classify_parentid = tct.id
+        INNER JOIN tb_classify AS tco ON tct.classify_parentid = tco.id
+        INNER JOIN tb_store AS ts ON tb_goods.store_id = ts.id
+        INNER JOIN tb_brand AS tb ON tb_goods.brand_id = tb.id
+        WHERE
+        tb_goods.one_classifyid = #{classifyId}
+        and goods_status != -1
+    </select>
+
+
+    <!--根据二级分类id 获取产品  不包含删除状态-->
+    <select id="selectGoodsByTwoClassifyId" resultMap="goodsResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="goodsPojoVoSql"/>
+        from tb_goods
+        LEFT JOIN tb_classify AS tcth ON tb_goods.three_classifyid = tcth.id
+        INNER JOIN tb_classify AS tct ON tcth.classify_parentid = tct.id
+        INNER JOIN tb_classify AS tco ON tct.classify_parentid = tco.id
+        INNER JOIN tb_store AS ts ON tb_goods.store_id = ts.id
+        INNER JOIN tb_brand AS tb ON tb_goods.brand_id = tb.id
+        WHERE
+        tb_goods.two_classifyid = #{classifyId}
+        and goods_status != -1
+    </select>
+    <!--根据三级分类id 获取产品  不包含删除状态-->
+    <select id="selectGoodsByThreeClassifyId" resultMap="goodsResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="goodsPojoVoSql"/>
+        from tb_goods
+        LEFT JOIN tb_classify AS tcth ON tb_goods.three_classifyid = tcth.id
+        INNER JOIN tb_classify AS tct ON tcth.classify_parentid = tct.id
+        INNER JOIN tb_classify AS tco ON tct.classify_parentid = tco.id
+        INNER JOIN tb_store AS ts ON tb_goods.store_id = ts.id
+        INNER JOIN tb_brand AS tb ON tb_goods.brand_id = tb.id
+        WHERE
+        tb_goods.three_classifyid = #{classifyId}
+        and goods_status != -1
+    </select>
+
+    <!--获取所有商品 不包含删除状态商品-->
+    <select id="selectGoodsAll" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_goods
+        where goods_status != -1
+    </select>
+
+
+    <!--根据商品id获取商品-->
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_goods
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--===========================================-->
+    <!--根据品牌id获取商品 只包含营销中商品-->
+    <select id="selectByBrandIdStatusTwo" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_goods
+        where brand_id = #{btandId,jdbcType=INTEGER}
+        and goods_status=2
+    </select>
+
+
+    <!--============================获取所有商品的所有商品评价 不包含删除状态的商品===========================-->
+    <select id="selectEvaluteCount" resultType="java.lang.Integer">
+SELECT
+Count(tb_evalute.id) AS evaluteCount
+FROM
+tb_goods
+INNER JOIN tb_evalute ON tb_goods.id = tb_evalute.goods_id
+WHERE
+tb_goods.goods_status != -1
+    </select>
+    <!--============================获取商品评价===========================-->
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.hrtxn.flchappinessmall.pojo.Goods">
+    insert into tb_goods (id, goods_addtime, goods_name, 
+      goods_parameter, goods_photo, brand_id, 
+      one_classifyid, two_classifyid, three_classifyid, 
+      goods_inventory, goods_weight, goods_dispatch_place, 
+      goods_sales_volume, invoice_issupport_flag, 
+      goods_status, goods_zone, goods_supply_price, 
+      goods_retail_price, goods_integral, goods_taxes, 
+      goods_freight, store_id, store_isbelong_new_flag, 
+      store_isbelong_hot_flag, plate_isbelong_new_flag, 
+      plate_isbelong_hot_flag, goods_details,force_sold_out_reason,reject_reason)
+    values (#{id,jdbcType=INTEGER}, #{goodsAddtime,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
+      #{goodsParameter,jdbcType=VARCHAR}, #{goodsPhoto,jdbcType=VARCHAR}, #{brandId,jdbcType=INTEGER}, 
+      #{oneClassifyid,jdbcType=INTEGER}, #{twoClassifyid,jdbcType=INTEGER}, #{threeClassifyid,jdbcType=INTEGER}, 
+      #{goodsInventory,jdbcType=INTEGER}, #{goodsWeight,jdbcType=REAL}, #{goodsDispatchPlace,jdbcType=VARCHAR}, 
+      #{goodsSalesVolume,jdbcType=INTEGER}, #{invoiceIssupportFlag,jdbcType=INTEGER}, 
+      #{goodsStatus,jdbcType=INTEGER}, #{goodsZone,jdbcType=INTEGER}, #{goodsSupplyPrice,jdbcType=REAL}, 
+      #{goodsRetailPrice,jdbcType=REAL}, #{goodsIntegral,jdbcType=INTEGER}, #{goodsTaxes,jdbcType=REAL}, 
+      #{goodsFreight,jdbcType=REAL}, #{storeId,jdbcType=INTEGER}, #{storeIsbelongNewFlag,jdbcType=INTEGER}, 
+      #{storeIsbelongHotFlag,jdbcType=INTEGER}, #{plateIsbelongNewFlag,jdbcType=INTEGER}, 
+      #{plateIsbelongHotFlag,jdbcType=INTEGER}, #{goodsDetails,jdbcType=LONGVARCHAR}, #{forceSoldOutReason},#{rejectReason})
+  </insert>
+    <insert id="insertSelective" parameterType="com.hrtxn.flchappinessmall.pojo.Goods">
+        insert into tb_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="goodsAddtime != null">
+                goods_addtime,
+            </if>
+            <if test="goodsName != null">
+                goods_name,
+            </if>
+            <if test="goodsParameter != null">
+                goods_parameter,
+            </if>
+            <if test="goodsPhoto != null">
+                goods_photo,
+            </if>
+            <if test="brandId != null">
+                brand_id,
+            </if>
+            <if test="oneClassifyid != null">
+                one_classifyid,
+            </if>
+            <if test="twoClassifyid != null">
+                two_classifyid,
+            </if>
+            <if test="threeClassifyid != null">
+                three_classifyid,
+            </if>
+            <if test="goodsInventory != null">
+                goods_inventory,
+            </if>
+            <if test="goodsWeight != null">
+                goods_weight,
+            </if>
+            <if test="goodsDispatchPlace != null">
+                goods_dispatch_place,
+            </if>
+            <if test="goodsSalesVolume != null">
+                goods_sales_volume,
+            </if>
+            <if test="invoiceIssupportFlag != null">
+                invoice_issupport_flag,
+            </if>
+            <if test="goodsStatus != null">
+                goods_status,
+            </if>
+            <if test="goodsZone != null">
+                goods_zone,
+            </if>
+            <if test="goodsSupplyPrice != null">
+                goods_supply_price,
+            </if>
+            <if test="goodsRetailPrice != null">
+                goods_retail_price,
+            </if>
+            <if test="goodsIntegral != null">
+                goods_integral,
+            </if>
+            <if test="goodsTaxes != null">
+                goods_taxes,
+            </if>
+            <if test="goodsFreight != null">
+                goods_freight,
+            </if>
+            <if test="storeId != null">
+                store_id,
+            </if>
+            <if test="storeIsbelongNewFlag != null">
+                store_isbelong_new_flag,
+            </if>
+            <if test="storeIsbelongHotFlag != null">
+                store_isbelong_hot_flag,
+            </if>
+            <if test="plateIsbelongNewFlag != null">
+                plate_isbelong_new_flag,
+            </if>
+            <if test="plateIsbelongHotFlag != null">
+                plate_isbelong_hot_flag,
+            </if>
+            <if test="goodsDetails != null">
+                goods_details,
+            </if>
+            <if test="forceSoldOutReason != null">
+                force_sold_out_reason,
+            </if>
+            <if test="rejectReason != null">
+                reject_reason,
+            </if>
+
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="goodsAddtime != null">
+                #{goodsAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsParameter != null">
+                #{goodsParameter,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsPhoto != null">
+                #{goodsPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="brandId != null">
+                #{brandId,jdbcType=INTEGER},
+            </if>
+            <if test="oneClassifyid != null">
+                #{oneClassifyid,jdbcType=INTEGER},
+            </if>
+            <if test="twoClassifyid != null">
+                #{twoClassifyid,jdbcType=INTEGER},
+            </if>
+            <if test="threeClassifyid != null">
+                #{threeClassifyid,jdbcType=INTEGER},
+            </if>
+            <if test="goodsInventory != null">
+                #{goodsInventory,jdbcType=INTEGER},
+            </if>
+            <if test="goodsWeight != null">
+                #{goodsWeight,jdbcType=REAL},
+            </if>
+            <if test="goodsDispatchPlace != null">
+                #{goodsDispatchPlace,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsSalesVolume != null">
+                #{goodsSalesVolume,jdbcType=INTEGER},
+            </if>
+            <if test="invoiceIssupportFlag != null">
+                #{invoiceIssupportFlag,jdbcType=INTEGER},
+            </if>
+            <if test="goodsStatus != null">
+                #{goodsStatus,jdbcType=INTEGER},
+            </if>
+            <if test="goodsZone != null">
+                #{goodsZone,jdbcType=INTEGER},
+            </if>
+            <if test="goodsSupplyPrice != null">
+                #{goodsSupplyPrice,jdbcType=REAL},
+            </if>
+            <if test="goodsRetailPrice != null">
+                #{goodsRetailPrice,jdbcType=REAL},
+            </if>
+            <if test="goodsIntegral != null">
+                #{goodsIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="goodsTaxes != null">
+                #{goodsTaxes,jdbcType=REAL},
+            </if>
+            <if test="goodsFreight != null">
+                #{goodsFreight,jdbcType=REAL},
+            </if>
+            <if test="storeId != null">
+                #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="storeIsbelongNewFlag != null">
+                #{storeIsbelongNewFlag,jdbcType=INTEGER},
+            </if>
+            <if test="storeIsbelongHotFlag != null">
+                #{storeIsbelongHotFlag,jdbcType=INTEGER},
+            </if>
+            <if test="plateIsbelongNewFlag != null">
+                #{plateIsbelongNewFlag,jdbcType=INTEGER},
+            </if>
+            <if test="plateIsbelongHotFlag != null">
+                #{plateIsbelongHotFlag,jdbcType=INTEGER},
+            </if>
+            <if test="goodsDetails != null">
+                #{goodsDetails,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="forceSoldOutReason != null">
+                #{forceSoldOutReason},
+            </if>
+            <if test="rejectReason != null">
+                #{rejectReason},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hrtxn.flchappinessmall.pojo.Goods">
+        update tb_goods
+        <set>
+            <if test="goodsAddtime != null">
+                goods_addtime = #{goodsAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                goods_name = #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsParameter != null">
+                goods_parameter = #{goodsParameter,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsPhoto != null">
+                goods_photo = #{goodsPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="brandId != null">
+                brand_id = #{brandId,jdbcType=INTEGER},
+            </if>
+            <if test="oneClassifyid != null">
+                one_classifyid = #{oneClassifyid,jdbcType=INTEGER},
+            </if>
+            <if test="twoClassifyid != null">
+                two_classifyid = #{twoClassifyid,jdbcType=INTEGER},
+            </if>
+            <if test="threeClassifyid != null">
+                three_classifyid = #{threeClassifyid,jdbcType=INTEGER},
+            </if>
+            <if test="goodsInventory != null">
+                goods_inventory = #{goodsInventory,jdbcType=INTEGER},
+            </if>
+            <if test="goodsWeight != null">
+                goods_weight = #{goodsWeight,jdbcType=REAL},
+            </if>
+            <if test="goodsDispatchPlace != null">
+                goods_dispatch_place = #{goodsDispatchPlace,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsSalesVolume != null">
+                goods_sales_volume = #{goodsSalesVolume,jdbcType=INTEGER},
+            </if>
+            <if test="invoiceIssupportFlag != null">
+                invoice_issupport_flag = #{invoiceIssupportFlag,jdbcType=INTEGER},
+            </if>
+            <if test="goodsStatus != null">
+                goods_status = #{goodsStatus,jdbcType=INTEGER},
+            </if>
+            <if test="goodsZone != null">
+                goods_zone = #{goodsZone,jdbcType=INTEGER},
+            </if>
+            <if test="goodsSupplyPrice != null">
+                goods_supply_price = #{goodsSupplyPrice,jdbcType=REAL},
+            </if>
+            <if test="goodsRetailPrice != null">
+                goods_retail_price = #{goodsRetailPrice,jdbcType=REAL},
+            </if>
+            <if test="goodsIntegral != null">
+                goods_integral = #{goodsIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="goodsTaxes != null">
+                goods_taxes = #{goodsTaxes,jdbcType=REAL},
+            </if>
+            <if test="goodsFreight != null">
+                goods_freight = #{goodsFreight,jdbcType=REAL},
+            </if>
+            <if test="storeId != null">
+                store_id = #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="storeIsbelongNewFlag != null">
+                store_isbelong_new_flag = #{storeIsbelongNewFlag,jdbcType=INTEGER},
+            </if>
+            <if test="storeIsbelongHotFlag != null">
+                store_isbelong_hot_flag = #{storeIsbelongHotFlag,jdbcType=INTEGER},
+            </if>
+            <if test="plateIsbelongNewFlag != null">
+                plate_isbelong_new_flag = #{plateIsbelongNewFlag,jdbcType=INTEGER},
+            </if>
+            <if test="plateIsbelongHotFlag != null">
+                plate_isbelong_hot_flag = #{plateIsbelongHotFlag,jdbcType=INTEGER},
+            </if>
+            <if test="goodsDetails != null">
+                goods_details = #{goodsDetails,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="forceSoldOutReason != null">
+                force_sold_out_reason = #{forceSoldOutReason},
+            </if>
+            <if test="rejectReason != null">
+                reject_reason = #{rejectReason},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hrtxn.flchappinessmall.pojo.Goods">
+    update tb_goods
+    set goods_addtime = #{goodsAddtime,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_parameter = #{goodsParameter,jdbcType=VARCHAR},
+      goods_photo = #{goodsPhoto,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      one_classifyid = #{oneClassifyid,jdbcType=INTEGER},
+      two_classifyid = #{twoClassifyid,jdbcType=INTEGER},
+      three_classifyid = #{threeClassifyid,jdbcType=INTEGER},
+      goods_inventory = #{goodsInventory,jdbcType=INTEGER},
+      goods_weight = #{goodsWeight,jdbcType=REAL},
+      goods_dispatch_place = #{goodsDispatchPlace,jdbcType=VARCHAR},
+      goods_sales_volume = #{goodsSalesVolume,jdbcType=INTEGER},
+      invoice_issupport_flag = #{invoiceIssupportFlag,jdbcType=INTEGER},
+      goods_status = #{goodsStatus,jdbcType=INTEGER},
+      goods_zone = #{goodsZone,jdbcType=INTEGER},
+      goods_supply_price = #{goodsSupplyPrice,jdbcType=REAL},
+      goods_retail_price = #{goodsRetailPrice,jdbcType=REAL},
+      goods_integral = #{goodsIntegral,jdbcType=INTEGER},
+      goods_taxes = #{goodsTaxes,jdbcType=REAL},
+      goods_freight = #{goodsFreight,jdbcType=REAL},
+      store_id = #{storeId,jdbcType=INTEGER},
+      store_isbelong_new_flag = #{storeIsbelongNewFlag,jdbcType=INTEGER},
+      store_isbelong_hot_flag = #{storeIsbelongHotFlag,jdbcType=INTEGER},
+      plate_isbelong_new_flag = #{plateIsbelongNewFlag,jdbcType=INTEGER},
+      plate_isbelong_hot_flag = #{plateIsbelongHotFlag,jdbcType=INTEGER},
+      goods_details = #{goodsDetails,jdbcType=LONGVARCHAR},
+      force_sold_out_reason = #{forceSoldOutReason},
+      reject_reason = #{rejectReason}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.hrtxn.flchappinessmall.pojo.Goods">
+    update tb_goods
+    set goods_addtime = #{goodsAddtime,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_parameter = #{goodsParameter,jdbcType=VARCHAR},
+      goods_photo = #{goodsPhoto,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      one_classifyid = #{oneClassifyid,jdbcType=INTEGER},
+      two_classifyid = #{twoClassifyid,jdbcType=INTEGER},
+      three_classifyid = #{threeClassifyid,jdbcType=INTEGER},
+      goods_inventory = #{goodsInventory,jdbcType=INTEGER},
+      goods_weight = #{goodsWeight,jdbcType=REAL},
+      goods_dispatch_place = #{goodsDispatchPlace,jdbcType=VARCHAR},
+      goods_sales_volume = #{goodsSalesVolume,jdbcType=INTEGER},
+      invoice_issupport_flag = #{invoiceIssupportFlag,jdbcType=INTEGER},
+      goods_status = #{goodsStatus,jdbcType=INTEGER},
+      goods_zone = #{goodsZone,jdbcType=INTEGER},
+      goods_supply_price = #{goodsSupplyPrice,jdbcType=REAL},
+      goods_retail_price = #{goodsRetailPrice,jdbcType=REAL},
+      goods_integral = #{goodsIntegral,jdbcType=INTEGER},
+      goods_taxes = #{goodsTaxes,jdbcType=REAL},
+      goods_freight = #{goodsFreight,jdbcType=REAL},
+      store_id = #{storeId,jdbcType=INTEGER},
+      store_isbelong_new_flag = #{storeIsbelongNewFlag,jdbcType=INTEGER},
+      store_isbelong_hot_flag = #{storeIsbelongHotFlag,jdbcType=INTEGER},
+      plate_isbelong_new_flag = #{plateIsbelongNewFlag,jdbcType=INTEGER},
+      plate_isbelong_hot_flag = #{plateIsbelongHotFlag,jdbcType=INTEGER},
+      force_sold_out_reason = #{forceSoldOutReason},
+      reject_reason = #{rejectReason}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

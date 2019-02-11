@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.ReportMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.Report">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="report_addtime" property="reportAddtime" jdbcType="VARCHAR"/>
+        <result column="operation_time" property="operationTime" jdbcType="VARCHAR"/>
+        <result column="operation_handler" property="operationHandler" jdbcType="VARCHAR"/>
+        <result column="report_describe" property="reportDescribe" jdbcType="LONGVARCHAR"/>
+        <result column="operation_note" property="operationNote" jdbcType="LONGVARCHAR"/>
+        <result column="store_id" property="storeId" jdbcType="LONGVARCHAR"/>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      id, user_id, goods_id, report_addtime, operation_time, operation_handler,report_describe, operation_note,store_id
+    </sql>
+
+    <!--获取所有举报商品记录-->
+    <select id="getGoodsReports" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT tr.id, user_id, goods_id, tr.store_id,report_addtime, operation_time, operation_handler,report_describe, operation_note,tu.user_nick AS userNick , tg.goods_name AS goodsName
+        FROM tb_report tr INNER JOIN tb_user tu , tb_goods tg
+        WHERE tr.user_id = tu.id AND tr.goods_id = tg.id
+    </select>
+
+    <!--获取所有举报店铺记录-->
+    <select id="getReportsStore" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT tr.id, user_id, goods_id, tr.store_id,report_addtime, operation_time, operation_handler,report_describe, operation_note,tu.user_nick AS userNick , ts.store_name AS goodsName
+        FROM tb_report tr INNER JOIN tb_user tu , tb_store ts
+        WHERE tr.user_id = tu.id AND goods_id = 0 AND tr.store_id = ts.id
+    </select>
+
+    <!--删除举报商品记录-->
+    <delete id="deleteReport" parameterType="java.lang.Integer">
+        DELETE FROM
+            tb_report
+        WHERE
+            id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!--修改操作备注-->
+    <update id="reportReply" parameterType="com.hrtxn.flchappinessmall.pojo.Report">
+        update tb_report
+        <set>
+            <if test="operationTime != null">
+                operation_time = #{operationTime,jdbcType=VARCHAR},
+            </if>
+            <if test="operationHandler != null">
+                operation_handler = #{operationHandler,jdbcType=VARCHAR},
+            </if>
+            <if test="operationNote != null">
+                operation_note = #{operationNote,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

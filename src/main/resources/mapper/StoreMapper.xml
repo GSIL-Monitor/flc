@@ -1,0 +1,922 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.StoreMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.Store">
+        <id column="srtorid" property="id" jdbcType="INTEGER"/>
+        <result column="store_addtime" property="storeAddtime" jdbcType="VARCHAR"/>
+        <result column="company" property="company" jdbcType="VARCHAR"/>
+        <result column="business_license_photograph" property="businessLicensePhotograph" jdbcType="VARCHAR"/>
+        <result column="registered_capital" property="registeredCapital" jdbcType="INTEGER"/>
+        <result column="registered_number" property="registeredNumber" jdbcType="VARCHAR"/>
+        <result column="social_credit_code" property="socialCreditCode" jdbcType="VARCHAR"/>
+        <result column="company_establishment_date" property="companyEstablishmentDate" jdbcType="VARCHAR"/>
+        <result column="operating_period" property="operatingPeriod" jdbcType="VARCHAR"/>
+        <result column="approval_date" property="approvalDate" jdbcType="VARCHAR"/>
+        <result column="company_registered_address" property="companyRegisteredAddress" jdbcType="VARCHAR"/>
+        <result column="legal_person_name" property="legalPersonName" jdbcType="VARCHAR"/>
+        <result column="legal_person_ID_code" property="legalPersonIdCode" jdbcType="VARCHAR"/>
+        <result column="legal_person_code_front_photo" property="legalPersonCodeFrontPhoto" jdbcType="VARCHAR"/>
+        <result column="legal_person_code_reverse_photo" property="legalPersonCodeReversePhoto" jdbcType="VARCHAR"/>
+        <result column="card_count" property="cardCount" jdbcType="VARCHAR"/>
+        <result column="card_name" property="cardName" jdbcType="VARCHAR"/>
+        <result column="card_open_account_photo" property="cardOpenAccountPhoto" jdbcType="VARCHAR"/>
+        <result column="card_open_account_address" property="cardOpenAccountAddress" jdbcType="VARCHAR"/>
+        <result column="company_permanent_address" property="companyPermanentAddress" jdbcType="VARCHAR"/>
+        <result column="trade_mark_name" property="tradeMarkName" jdbcType="VARCHAR"/>
+        <result column="trade_mark_regist_people" property="tradeMarkRegistPeople" jdbcType="VARCHAR"/>
+        <result column="trade_mark_regist_photo" property="tradeMarkRegistPhoto" jdbcType="VARCHAR"/>
+        <result column="trade_mark_authorization_photo" property="tradeMarkAuthorizationPhoto" jdbcType="VARCHAR"/>
+        <result column="production_license_number" property="productionLicenseNumber" jdbcType="VARCHAR"/>
+        <result column="production_license_valid_date" property="productionLicenseValidDate" jdbcType="VARCHAR"/>
+        <result column="production_license_photo" property="productionLicensePhoto" jdbcType="VARCHAR"/>
+        <result column="business_license_number" property="businessLicenseNumber" jdbcType="VARCHAR"/>
+        <result column="business_license_valid_date" property="businessLicenseValidDate" jdbcType="VARCHAR"/>
+        <result column="business_license_photo" property="businessLicensePhoto" jdbcType="VARCHAR"/>
+        <result column="actual_operator_name" property="actualOperatorName" jdbcType="VARCHAR"/>
+        <result column="actual_operator_qq" property="actualOperatorQq" jdbcType="VARCHAR"/>
+        <result column="actual_operator_weixin" property="actualOperatorWeixin" jdbcType="VARCHAR"/>
+        <result column="actual_operator_tel" property="actualOperatorTel" jdbcType="VARCHAR"/>
+        <result column="actual_operator_email" property="actualOperatorEmail" jdbcType="VARCHAR"/>
+        <result column="general_leader_name" property="generalLeaderName" jdbcType="VARCHAR"/>
+        <result column="general_leader_tel" property="generalLeaderTel" jdbcType="VARCHAR"/>
+        <result column="general_leader_weixin" property="generalLeaderWeixin" jdbcType="VARCHAR"/>
+        <result column="referrer_name" property="referrerName" jdbcType="VARCHAR"/>
+        <result column="referrer_level" property="referrerLevel" jdbcType="VARCHAR"/>
+        <result column="referrer_id" property="referrerId" jdbcType="VARCHAR"/>
+        <result column="referrer_tel" property="referrerTel" jdbcType="VARCHAR"/>
+        <result column="service_amount" property="serviceAmount" jdbcType="VARCHAR"/>
+        <result column="work_time" property="workTime" jdbcType="VARCHAR"/>
+        <result column="general_taxpayer_photo" property="generalTaxpayerPhoto" jdbcType="VARCHAR"/>
+        <result column="product_test_report_photo" property="productTestReportPhoto" jdbcType="VARCHAR"/>
+        <result column="store_name" property="storeName" jdbcType="VARCHAR"/>
+        <result column="store_contact_people" property="storeContactPeople" jdbcType="VARCHAR"/>
+        <result column="store_contact_people_tel" property="storeContactPeopleTel" jdbcType="VARCHAR"/>
+        <result column="server_qq" property="serverQq" jdbcType="VARCHAR"/>
+        <result column="store_logo" property="storeLogo" jdbcType="VARCHAR"/>
+        <result column="store_pay_password" property="storePayPassword" jdbcType="VARCHAR"/>
+        <result column="store_nick" property="storeNick" jdbcType="VARCHAR"/>
+        <result column="store_password" property="storePassword" jdbcType="VARCHAR"/>
+        <result column="store_number" property="storeNumber" jdbcType="VARCHAR"/>
+        <result column="store_status" property="storeStatus"/>
+        <result column="store_classify" property="storeClassify" jdbcType="INTEGER"/>
+        <result column="business_scope" property="businessScope" jdbcType="LONGVARCHAR"/>
+        <result column="store_introduce" property="storeIntroduce" jdbcType="LONGVARCHAR"/>
+        <result column="reject_reason" property="rejectReason" jdbcType="LONGVARCHAR"/>
+        <result column="store_account" property="storeAccount" jdbcType="FLOAT"/>
+        <result column="classify_name" property="classifyName"/>
+    </resultMap>
+
+    <!--<sql id="Base_Column_List" >-->
+    <!--tb_classify.id AS srtorid,
+    这个id有问题 classify/store
+    store_addtime, company, business_license_photograph, registered_capital, registered_number,-->
+    <!--social_credit_code, company_establishment_date, operating_period, approval_date, -->
+    <!--company_registered_address, legal_person_name, legal_person_ID_code, legal_person_code_front_photo, -->
+    <!--legal_person_code_reverse_photo, card_count, card_name, card_open_account_photo, -->
+    <!--card_open_account_address, company_permanent_address, trade_mark_name, trade_mark_regist_people, -->
+    <!--trade_mark_regist_photo, trade_mark_authorization_photo, production_license_number, -->
+    <!--production_license_valid_date, production_license_photo, business_license_number, -->
+    <!--business_license_valid_date, business_license_photo, actual_operator_name, actual_operator_qq, -->
+    <!--actual_operator_weixin, actual_operator_tel, actual_operator_email, general_leader_name, -->
+    <!--general_leader_tel, general_leader_weixin, referrer_name, referrer_level, referrer_id, -->
+    <!--referrer_tel, service_amount, work_time, general_taxpayer_photo, product_test_report_photo, -->
+    <!--store_name, store_contact_people, store_contact_people_tel, server_qq, store_logo, -->
+    <!--store_pay_password, store_nick, store_password, store_number, store_status, store_classify,business_scope, store_introduce, reject_reason,  classify_name-->
+    <!--</sql>-->
+    <sql id="Base_Column_List">
+    *,classify_name, tb_store.id AS srtorid
+  </sql>
+
+
+    <!--查詢所有商鋪信息-->
+    <select id="selectStoreList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM tb_store
+        left JOIN tb_classify
+        ON tb_classify.id= tb_store.store_classify
+        where tb_store.store_status = 1 or tb_store.store_status = 2 or tb_store.store_status = 3
+    </select>
+
+
+    <!--根据分类id获取店铺-->
+    <select id="selectByClassifyId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM tb_store
+        inner JOIN tb_classify
+        ON tb_classify.id= tb_store.store_classify
+        where store_status != -1 and store_classify = #{classifyId}
+    </select>
+
+    <!--  查询一级分类名和其所有店铺数量-->
+    <select id="selectByClassifyCount" resultType="com.hrtxn.flchappinessmall.pojo.pojoVo.StoreVo">
+ SELECT
+Count(tb_store.id) AS storeVoCount,
+tb_classify.classify_name AS classifyName,
+(SELECT
+COUNT(tb_store.id)
+FROM
+tb_store
+WHERE
+tb_store.store_status = 1 OR
+tb_store.store_status = 2 OR
+tb_store.store_status = 3
+
+
+) AS sumStorelength
+FROM
+tb_store
+inner JOIN tb_classify ON tb_store.store_classify = tb_classify.id
+WHERE
+tb_store.store_status = 1 OR
+tb_store.store_status = 2 OR
+tb_store.store_status = 3
+GROUP BY
+tb_classify.id
+
+/*该还有一种简单的获取数据的方式  */
+
+/*SELECT
+Count(tb_store.id) AS sumStoreId,
+tb_classify.classify_name
+   FROM tb_store
+        inner JOIN tb_classify
+        ON tb_classify.id= tb_store.store_classify
+        where tb_store.store_status = 1 or tb_store.store_status = 2 or tb_store.store_status = 3
+GROUP BY
+tb_classify.id*/
+
+  </select>
+
+
+    <!--根据店铺id获取店铺-->
+    <select id="selectStoreById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM tb_store
+        left JOIN tb_classify
+        ON tb_classify.id= tb_store.store_classify
+        where tb_store.id=#{id}
+    </select>
+
+
+    <!--================================================================================================================
+    =================================++++++店铺审核功能+++++==========================================================
+    ==================================================================================================================-->
+
+    <!-- 获取制定状态店铺-->
+    <select id="selectStoreStatusList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM tb_store
+        left JOIN tb_classify
+        ON tb_classify.id= tb_store.store_classify
+        where tb_store.store_status = #{status}
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        tb_store
+        where
+        id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from
+      tb_store
+    where
+      id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.hrtxn.flchappinessmall.pojo.Store">
+    insert into tb_store (id, store_addtime, company, 
+      business_license_photograph, registered_capital, 
+      registered_number, social_credit_code, company_establishment_date, 
+      operating_period, approval_date, company_registered_address, 
+      legal_person_name, legal_person_ID_code, legal_person_code_front_photo, 
+      legal_person_code_reverse_photo, card_count, 
+      card_name, card_open_account_photo, card_open_account_address, 
+      company_permanent_address, trade_mark_name, 
+      trade_mark_regist_people, trade_mark_regist_photo, 
+      trade_mark_authorization_photo, production_license_number, 
+      production_license_valid_date, production_license_photo, 
+      business_license_number, business_license_valid_date, 
+      business_license_photo, actual_operator_name, 
+      actual_operator_qq, actual_operator_weixin, 
+      actual_operator_tel, actual_operator_email, 
+      general_leader_name, general_leader_tel, general_leader_weixin, 
+      referrer_name, referrer_level, referrer_id, 
+      referrer_tel, service_amount, work_time, 
+      general_taxpayer_photo, product_test_report_photo, 
+      store_name, store_contact_people, store_contact_people_tel, 
+      server_qq, store_logo, store_pay_password, 
+      store_nick, store_password, store_number, 
+      store_status, store_classify, business_scope, 
+      store_introduce, reject_reason)
+    values (#{id,jdbcType=INTEGER}, #{storeAddtime,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
+      #{businessLicensePhotograph,jdbcType=VARCHAR}, #{registeredCapital,jdbcType=INTEGER}, 
+      #{registeredNumber,jdbcType=VARCHAR}, #{socialCreditCode,jdbcType=VARCHAR}, #{companyEstablishmentDate,jdbcType=VARCHAR}, 
+      #{operatingPeriod,jdbcType=VARCHAR}, #{approvalDate,jdbcType=VARCHAR}, #{companyRegisteredAddress,jdbcType=VARCHAR}, 
+      #{legalPersonName,jdbcType=VARCHAR}, #{legalPersonIdCode,jdbcType=VARCHAR}, #{legalPersonCodeFrontPhoto,jdbcType=VARCHAR}, 
+      #{legalPersonCodeReversePhoto,jdbcType=VARCHAR}, #{cardCount,jdbcType=VARCHAR}, 
+      #{cardName,jdbcType=VARCHAR}, #{cardOpenAccountPhoto,jdbcType=VARCHAR}, #{cardOpenAccountAddress,jdbcType=VARCHAR}, 
+      #{companyPermanentAddress,jdbcType=VARCHAR}, #{tradeMarkName,jdbcType=VARCHAR}, 
+      #{tradeMarkRegistPeople,jdbcType=VARCHAR}, #{tradeMarkRegistPhoto,jdbcType=VARCHAR}, 
+      #{tradeMarkAuthorizationPhoto,jdbcType=VARCHAR}, #{productionLicenseNumber,jdbcType=VARCHAR}, 
+      #{productionLicenseValidDate,jdbcType=VARCHAR}, #{productionLicensePhoto,jdbcType=VARCHAR}, 
+      #{businessLicenseNumber,jdbcType=VARCHAR}, #{businessLicenseValidDate,jdbcType=VARCHAR}, 
+      #{businessLicensePhoto,jdbcType=VARCHAR}, #{actualOperatorName,jdbcType=VARCHAR}, 
+      #{actualOperatorQq,jdbcType=VARCHAR}, #{actualOperatorWeixin,jdbcType=VARCHAR}, 
+      #{actualOperatorTel,jdbcType=VARCHAR}, #{actualOperatorEmail,jdbcType=VARCHAR}, 
+      #{generalLeaderName,jdbcType=VARCHAR}, #{generalLeaderTel,jdbcType=VARCHAR}, #{generalLeaderWeixin,jdbcType=VARCHAR}, 
+      #{referrerName,jdbcType=VARCHAR}, #{referrerLevel,jdbcType=VARCHAR}, #{referrerId,jdbcType=VARCHAR}, 
+      #{referrerTel,jdbcType=VARCHAR}, #{serviceAmount,jdbcType=VARCHAR}, #{workTime,jdbcType=VARCHAR}, 
+      #{generalTaxpayerPhoto,jdbcType=VARCHAR}, #{productTestReportPhoto,jdbcType=VARCHAR}, 
+      #{storeName,jdbcType=VARCHAR}, #{storeContactPeople,jdbcType=VARCHAR}, #{storeContactPeopleTel,jdbcType=VARCHAR}, 
+      #{serverQq,jdbcType=VARCHAR}, #{storeLogo,jdbcType=VARCHAR}, #{storePayPassword,jdbcType=VARCHAR}, 
+      #{storeNick,jdbcType=VARCHAR}, #{storePassword,jdbcType=VARCHAR}, #{storeNumber,jdbcType=VARCHAR}, 
+      #{storeStatus,jdbcType=INTEGER}, #{storeClassify,jdbcType=INTEGER}, #{businessScope,jdbcType=LONGVARCHAR}, 
+      #{storeIntroduce,jdbcType=LONGVARCHAR}, #{rejectReason,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.hrtxn.flchappinessmall.pojo.Store">
+        insert into tb_store
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="storeAddtime != null">
+                store_addtime,
+            </if>
+            <if test="company != null">
+                company,
+            </if>
+            <if test="businessLicensePhotograph != null">
+                business_license_photograph,
+            </if>
+            <if test="registeredCapital != null">
+                registered_capital,
+            </if>
+            <if test="registeredNumber != null">
+                registered_number,
+            </if>
+            <if test="socialCreditCode != null">
+                social_credit_code,
+            </if>
+            <if test="companyEstablishmentDate != null">
+                company_establishment_date,
+            </if>
+            <if test="operatingPeriod != null">
+                operating_period,
+            </if>
+            <if test="approvalDate != null">
+                approval_date,
+            </if>
+            <if test="companyRegisteredAddress != null">
+                company_registered_address,
+            </if>
+            <if test="legalPersonName != null">
+                legal_person_name,
+            </if>
+            <if test="legalPersonIdCode != null">
+                legal_person_ID_code,
+            </if>
+            <if test="legalPersonCodeFrontPhoto != null">
+                legal_person_code_front_photo,
+            </if>
+            <if test="legalPersonCodeReversePhoto != null">
+                legal_person_code_reverse_photo,
+            </if>
+            <if test="cardCount != null">
+                card_count,
+            </if>
+            <if test="cardName != null">
+                card_name,
+            </if>
+            <if test="cardOpenAccountPhoto != null">
+                card_open_account_photo,
+            </if>
+            <if test="cardOpenAccountAddress != null">
+                card_open_account_address,
+            </if>
+            <if test="companyPermanentAddress != null">
+                company_permanent_address,
+            </if>
+            <if test="tradeMarkName != null">
+                trade_mark_name,
+            </if>
+            <if test="tradeMarkRegistPeople != null">
+                trade_mark_regist_people,
+            </if>
+            <if test="tradeMarkRegistPhoto != null">
+                trade_mark_regist_photo,
+            </if>
+            <if test="tradeMarkAuthorizationPhoto != null">
+                trade_mark_authorization_photo,
+            </if>
+            <if test="productionLicenseNumber != null">
+                production_license_number,
+            </if>
+            <if test="productionLicenseValidDate != null">
+                production_license_valid_date,
+            </if>
+            <if test="productionLicensePhoto != null">
+                production_license_photo,
+            </if>
+            <if test="businessLicenseNumber != null">
+                business_license_number,
+            </if>
+            <if test="businessLicenseValidDate != null">
+                business_license_valid_date,
+            </if>
+            <if test="businessLicensePhoto != null">
+                business_license_photo,
+            </if>
+            <if test="actualOperatorName != null">
+                actual_operator_name,
+            </if>
+            <if test="actualOperatorQq != null">
+                actual_operator_qq,
+            </if>
+            <if test="actualOperatorWeixin != null">
+                actual_operator_weixin,
+            </if>
+            <if test="actualOperatorTel != null">
+                actual_operator_tel,
+            </if>
+            <if test="actualOperatorEmail != null">
+                actual_operator_email,
+            </if>
+            <if test="generalLeaderName != null">
+                general_leader_name,
+            </if>
+            <if test="generalLeaderTel != null">
+                general_leader_tel,
+            </if>
+            <if test="generalLeaderWeixin != null">
+                general_leader_weixin,
+            </if>
+            <if test="referrerName != null">
+                referrer_name,
+            </if>
+            <if test="referrerLevel != null">
+                referrer_level,
+            </if>
+            <if test="referrerId != null">
+                referrer_id,
+            </if>
+            <if test="referrerTel != null">
+                referrer_tel,
+            </if>
+            <if test="serviceAmount != null">
+                service_amount,
+            </if>
+            <if test="workTime != null">
+                work_time,
+            </if>
+            <if test="generalTaxpayerPhoto != null">
+                general_taxpayer_photo,
+            </if>
+            <if test="productTestReportPhoto != null">
+                product_test_report_photo,
+            </if>
+            <if test="storeName != null">
+                store_name,
+            </if>
+            <if test="storeContactPeople != null">
+                store_contact_people,
+            </if>
+            <if test="storeContactPeopleTel != null">
+                store_contact_people_tel,
+            </if>
+            <if test="serverQq != null">
+                server_qq,
+            </if>
+            <if test="storeLogo != null">
+                store_logo,
+            </if>
+            <if test="storePayPassword != null">
+                store_pay_password,
+            </if>
+            <if test="storeNick != null">
+                store_nick,
+            </if>
+            <if test="storePassword != null">
+                store_password,
+            </if>
+            <if test="storeNumber != null">
+                store_number,
+            </if>
+            <if test="storeStatus != null">
+                store_status,
+            </if>
+            <if test="storeClassify != null">
+                store_classify,
+            </if>
+            <if test="businessScope != null">
+                business_scope,
+            </if>
+            <if test="storeIntroduce != null">
+                store_introduce,
+            </if>
+            <if test="rejectReason != null">
+                reject_reason,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="storeAddtime != null">
+                #{storeAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                #{company,jdbcType=VARCHAR},
+            </if>
+            <if test="businessLicensePhotograph != null">
+                #{businessLicensePhotograph,jdbcType=VARCHAR},
+            </if>
+            <if test="registeredCapital != null">
+                #{registeredCapital,jdbcType=INTEGER},
+            </if>
+            <if test="registeredNumber != null">
+                #{registeredNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="socialCreditCode != null">
+                #{socialCreditCode,jdbcType=VARCHAR},
+            </if>
+            <if test="companyEstablishmentDate != null">
+                #{companyEstablishmentDate,jdbcType=VARCHAR},
+            </if>
+            <if test="operatingPeriod != null">
+                #{operatingPeriod,jdbcType=VARCHAR},
+            </if>
+            <if test="approvalDate != null">
+                #{approvalDate,jdbcType=VARCHAR},
+            </if>
+            <if test="companyRegisteredAddress != null">
+                #{companyRegisteredAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="legalPersonName != null">
+                #{legalPersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="legalPersonIdCode != null">
+                #{legalPersonIdCode,jdbcType=VARCHAR},
+            </if>
+            <if test="legalPersonCodeFrontPhoto != null">
+                #{legalPersonCodeFrontPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="legalPersonCodeReversePhoto != null">
+                #{legalPersonCodeReversePhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="cardCount != null">
+                #{cardCount,jdbcType=VARCHAR},
+            </if>
+            <if test="cardName != null">
+                #{cardName,jdbcType=VARCHAR},
+            </if>
+            <if test="cardOpenAccountPhoto != null">
+                #{cardOpenAccountPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="cardOpenAccountAddress != null">
+                #{cardOpenAccountAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="companyPermanentAddress != null">
+                #{companyPermanentAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeMarkName != null">
+                #{tradeMarkName,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeMarkRegistPeople != null">
+                #{tradeMarkRegistPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeMarkRegistPhoto != null">
+                #{tradeMarkRegistPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeMarkAuthorizationPhoto != null">
+                #{tradeMarkAuthorizationPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="productionLicenseNumber != null">
+                #{productionLicenseNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="productionLicenseValidDate != null">
+                #{productionLicenseValidDate,jdbcType=VARCHAR},
+            </if>
+            <if test="productionLicensePhoto != null">
+                #{productionLicensePhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="businessLicenseNumber != null">
+                #{businessLicenseNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="businessLicenseValidDate != null">
+                #{businessLicenseValidDate,jdbcType=VARCHAR},
+            </if>
+            <if test="businessLicensePhoto != null">
+                #{businessLicensePhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="actualOperatorName != null">
+                #{actualOperatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="actualOperatorQq != null">
+                #{actualOperatorQq,jdbcType=VARCHAR},
+            </if>
+            <if test="actualOperatorWeixin != null">
+                #{actualOperatorWeixin,jdbcType=VARCHAR},
+            </if>
+            <if test="actualOperatorTel != null">
+                #{actualOperatorTel,jdbcType=VARCHAR},
+            </if>
+            <if test="actualOperatorEmail != null">
+                #{actualOperatorEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="generalLeaderName != null">
+                #{generalLeaderName,jdbcType=VARCHAR},
+            </if>
+            <if test="generalLeaderTel != null">
+                #{generalLeaderTel,jdbcType=VARCHAR},
+            </if>
+            <if test="generalLeaderWeixin != null">
+                #{generalLeaderWeixin,jdbcType=VARCHAR},
+            </if>
+            <if test="referrerName != null">
+                #{referrerName,jdbcType=VARCHAR},
+            </if>
+            <if test="referrerLevel != null">
+                #{referrerLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="referrerId != null">
+                #{referrerId,jdbcType=VARCHAR},
+            </if>
+            <if test="referrerTel != null">
+                #{referrerTel,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceAmount != null">
+                #{serviceAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="workTime != null">
+                #{workTime,jdbcType=VARCHAR},
+            </if>
+            <if test="generalTaxpayerPhoto != null">
+                #{generalTaxpayerPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="productTestReportPhoto != null">
+                #{productTestReportPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="storeName != null">
+                #{storeName,jdbcType=VARCHAR},
+            </if>
+            <if test="storeContactPeople != null">
+                #{storeContactPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="storeContactPeopleTel != null">
+                #{storeContactPeopleTel,jdbcType=VARCHAR},
+            </if>
+            <if test="serverQq != null">
+                #{serverQq,jdbcType=VARCHAR},
+            </if>
+            <if test="storeLogo != null">
+                #{storeLogo,jdbcType=VARCHAR},
+            </if>
+            <if test="storePayPassword != null">
+                #{storePayPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="storeNick != null">
+                #{storeNick,jdbcType=VARCHAR},
+            </if>
+            <if test="storePassword != null">
+                #{storePassword,jdbcType=VARCHAR},
+            </if>
+            <if test="storeNumber != null">
+                #{storeNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="storeStatus != null">
+                #{storeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="storeClassify != null">
+                #{storeClassify,jdbcType=INTEGER},
+            </if>
+            <if test="businessScope != null">
+                #{businessScope,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="storeIntroduce != null">
+                #{storeIntroduce,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="rejectReason != null">
+                #{rejectReason,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hrtxn.flchappinessmall.pojo.Store">
+        update tb_store
+        <set>
+            <if test="storeAddtime != null">
+                store_addtime = #{storeAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                company = #{company,jdbcType=VARCHAR},
+            </if>
+            <if test="businessLicensePhotograph != null">
+                business_license_photograph = #{businessLicensePhotograph,jdbcType=VARCHAR},
+            </if>
+            <if test="registeredCapital != null">
+                registered_capital = #{registeredCapital,jdbcType=INTEGER},
+            </if>
+            <if test="registeredNumber != null">
+                registered_number = #{registeredNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="socialCreditCode != null">
+                social_credit_code = #{socialCreditCode,jdbcType=VARCHAR},
+            </if>
+            <if test="companyEstablishmentDate != null">
+                company_establishment_date = #{companyEstablishmentDate,jdbcType=VARCHAR},
+            </if>
+            <if test="operatingPeriod != null">
+                operating_period = #{operatingPeriod,jdbcType=VARCHAR},
+            </if>
+            <if test="approvalDate != null">
+                approval_date = #{approvalDate,jdbcType=VARCHAR},
+            </if>
+            <if test="companyRegisteredAddress != null">
+                company_registered_address = #{companyRegisteredAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="legalPersonName != null">
+                legal_person_name = #{legalPersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="legalPersonIdCode != null">
+                legal_person_ID_code = #{legalPersonIdCode,jdbcType=VARCHAR},
+            </if>
+            <if test="legalPersonCodeFrontPhoto != null">
+                legal_person_code_front_photo = #{legalPersonCodeFrontPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="legalPersonCodeReversePhoto != null">
+                legal_person_code_reverse_photo = #{legalPersonCodeReversePhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="cardCount != null">
+                card_count = #{cardCount,jdbcType=VARCHAR},
+            </if>
+            <if test="cardName != null">
+                card_name = #{cardName,jdbcType=VARCHAR},
+            </if>
+            <if test="cardOpenAccountPhoto != null">
+                card_open_account_photo = #{cardOpenAccountPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="cardOpenAccountAddress != null">
+                card_open_account_address = #{cardOpenAccountAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="companyPermanentAddress != null">
+                company_permanent_address = #{companyPermanentAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeMarkName != null">
+                trade_mark_name = #{tradeMarkName,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeMarkRegistPeople != null">
+                trade_mark_regist_people = #{tradeMarkRegistPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeMarkRegistPhoto != null">
+                trade_mark_regist_photo = #{tradeMarkRegistPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeMarkAuthorizationPhoto != null">
+                trade_mark_authorization_photo = #{tradeMarkAuthorizationPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="productionLicenseNumber != null">
+                production_license_number = #{productionLicenseNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="productionLicenseValidDate != null">
+                production_license_valid_date = #{productionLicenseValidDate,jdbcType=VARCHAR},
+            </if>
+            <if test="productionLicensePhoto != null">
+                production_license_photo = #{productionLicensePhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="businessLicenseNumber != null">
+                business_license_number = #{businessLicenseNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="businessLicenseValidDate != null">
+                business_license_valid_date = #{businessLicenseValidDate,jdbcType=VARCHAR},
+            </if>
+            <if test="businessLicensePhoto != null">
+                business_license_photo = #{businessLicensePhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="actualOperatorName != null">
+                actual_operator_name = #{actualOperatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="actualOperatorQq != null">
+                actual_operator_qq = #{actualOperatorQq,jdbcType=VARCHAR},
+            </if>
+            <if test="actualOperatorWeixin != null">
+                actual_operator_weixin = #{actualOperatorWeixin,jdbcType=VARCHAR},
+            </if>
+            <if test="actualOperatorTel != null">
+                actual_operator_tel = #{actualOperatorTel,jdbcType=VARCHAR},
+            </if>
+            <if test="actualOperatorEmail != null">
+                actual_operator_email = #{actualOperatorEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="generalLeaderName != null">
+                general_leader_name = #{generalLeaderName,jdbcType=VARCHAR},
+            </if>
+            <if test="generalLeaderTel != null">
+                general_leader_tel = #{generalLeaderTel,jdbcType=VARCHAR},
+            </if>
+            <if test="generalLeaderWeixin != null">
+                general_leader_weixin = #{generalLeaderWeixin,jdbcType=VARCHAR},
+            </if>
+            <if test="referrerName != null">
+                referrer_name = #{referrerName,jdbcType=VARCHAR},
+            </if>
+            <if test="referrerLevel != null">
+                referrer_level = #{referrerLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="referrerId != null">
+                referrer_id = #{referrerId,jdbcType=VARCHAR},
+            </if>
+            <if test="referrerTel != null">
+                referrer_tel = #{referrerTel,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceAmount != null">
+                service_amount = #{serviceAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="workTime != null">
+                work_time = #{workTime,jdbcType=VARCHAR},
+            </if>
+            <if test="generalTaxpayerPhoto != null">
+                general_taxpayer_photo = #{generalTaxpayerPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="productTestReportPhoto != null">
+                product_test_report_photo = #{productTestReportPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="storeName != null">
+                store_name = #{storeName,jdbcType=VARCHAR},
+            </if>
+            <if test="storeContactPeople != null">
+                store_contact_people = #{storeContactPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="storeContactPeopleTel != null">
+                store_contact_people_tel = #{storeContactPeopleTel,jdbcType=VARCHAR},
+            </if>
+            <if test="serverQq != null">
+                server_qq = #{serverQq,jdbcType=VARCHAR},
+            </if>
+            <if test="storeLogo != null">
+                store_logo = #{storeLogo,jdbcType=VARCHAR},
+            </if>
+            <if test="storePayPassword != null">
+                store_pay_password = #{storePayPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="storeNick != null">
+                store_nick = #{storeNick,jdbcType=VARCHAR},
+            </if>
+            <if test="storePassword != null">
+                store_password = #{storePassword,jdbcType=VARCHAR},
+            </if>
+            <if test="storeNumber != null">
+                store_number = #{storeNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="storeStatus != null">
+                store_status = #{storeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="storeClassify != null">
+                store_classify = #{storeClassify,jdbcType=INTEGER},
+            </if>
+            <if test="businessScope != null">
+                business_scope = #{businessScope,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="storeIntroduce != null">
+                store_introduce = #{storeIntroduce,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="rejectReason != null">
+                reject_reason = #{rejectReason,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hrtxn.flchappinessmall.pojo.Store">
+    update tb_store
+    set store_addtime = #{storeAddtime,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      business_license_photograph = #{businessLicensePhotograph,jdbcType=VARCHAR},
+      registered_capital = #{registeredCapital,jdbcType=INTEGER},
+      registered_number = #{registeredNumber,jdbcType=VARCHAR},
+      social_credit_code = #{socialCreditCode,jdbcType=VARCHAR},
+      company_establishment_date = #{companyEstablishmentDate,jdbcType=VARCHAR},
+      operating_period = #{operatingPeriod,jdbcType=VARCHAR},
+      approval_date = #{approvalDate,jdbcType=VARCHAR},
+      company_registered_address = #{companyRegisteredAddress,jdbcType=VARCHAR},
+      legal_person_name = #{legalPersonName,jdbcType=VARCHAR},
+      legal_person_ID_code = #{legalPersonIdCode,jdbcType=VARCHAR},
+      legal_person_code_front_photo = #{legalPersonCodeFrontPhoto,jdbcType=VARCHAR},
+      legal_person_code_reverse_photo = #{legalPersonCodeReversePhoto,jdbcType=VARCHAR},
+      card_count = #{cardCount,jdbcType=VARCHAR},
+      card_name = #{cardName,jdbcType=VARCHAR},
+      card_open_account_photo = #{cardOpenAccountPhoto,jdbcType=VARCHAR},
+      card_open_account_address = #{cardOpenAccountAddress,jdbcType=VARCHAR},
+      company_permanent_address = #{companyPermanentAddress,jdbcType=VARCHAR},
+      trade_mark_name = #{tradeMarkName,jdbcType=VARCHAR},
+      trade_mark_regist_people = #{tradeMarkRegistPeople,jdbcType=VARCHAR},
+      trade_mark_regist_photo = #{tradeMarkRegistPhoto,jdbcType=VARCHAR},
+      trade_mark_authorization_photo = #{tradeMarkAuthorizationPhoto,jdbcType=VARCHAR},
+      production_license_number = #{productionLicenseNumber,jdbcType=VARCHAR},
+      production_license_valid_date = #{productionLicenseValidDate,jdbcType=VARCHAR},
+      production_license_photo = #{productionLicensePhoto,jdbcType=VARCHAR},
+      business_license_number = #{businessLicenseNumber,jdbcType=VARCHAR},
+      business_license_valid_date = #{businessLicenseValidDate,jdbcType=VARCHAR},
+      business_license_photo = #{businessLicensePhoto,jdbcType=VARCHAR},
+      actual_operator_name = #{actualOperatorName,jdbcType=VARCHAR},
+      actual_operator_qq = #{actualOperatorQq,jdbcType=VARCHAR},
+      actual_operator_weixin = #{actualOperatorWeixin,jdbcType=VARCHAR},
+      actual_operator_tel = #{actualOperatorTel,jdbcType=VARCHAR},
+      actual_operator_email = #{actualOperatorEmail,jdbcType=VARCHAR},
+      general_leader_name = #{generalLeaderName,jdbcType=VARCHAR},
+      general_leader_tel = #{generalLeaderTel,jdbcType=VARCHAR},
+      general_leader_weixin = #{generalLeaderWeixin,jdbcType=VARCHAR},
+      referrer_name = #{referrerName,jdbcType=VARCHAR},
+      referrer_level = #{referrerLevel,jdbcType=VARCHAR},
+      referrer_id = #{referrerId,jdbcType=VARCHAR},
+      referrer_tel = #{referrerTel,jdbcType=VARCHAR},
+      service_amount = #{serviceAmount,jdbcType=VARCHAR},
+      work_time = #{workTime,jdbcType=VARCHAR},
+      general_taxpayer_photo = #{generalTaxpayerPhoto,jdbcType=VARCHAR},
+      product_test_report_photo = #{productTestReportPhoto,jdbcType=VARCHAR},
+      store_name = #{storeName,jdbcType=VARCHAR},
+      store_contact_people = #{storeContactPeople,jdbcType=VARCHAR},
+      store_contact_people_tel = #{storeContactPeopleTel,jdbcType=VARCHAR},
+      server_qq = #{serverQq,jdbcType=VARCHAR},
+      store_logo = #{storeLogo,jdbcType=VARCHAR},
+      store_pay_password = #{storePayPassword,jdbcType=VARCHAR},
+      store_nick = #{storeNick,jdbcType=VARCHAR},
+      store_password = #{storePassword,jdbcType=VARCHAR},
+      store_number = #{storeNumber,jdbcType=VARCHAR},
+      store_status = #{storeStatus,jdbcType=INTEGER},
+      store_classify = #{storeClassify,jdbcType=INTEGER},
+      business_scope = #{businessScope,jdbcType=LONGVARCHAR},
+      store_introduce = #{storeIntroduce,jdbcType=LONGVARCHAR},
+      reject_reason = #{rejectReason,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.hrtxn.flchappinessmall.pojo.Store">
+    update tb_store
+    set store_addtime = #{storeAddtime,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      business_license_photograph = #{businessLicensePhotograph,jdbcType=VARCHAR},
+      registered_capital = #{registeredCapital,jdbcType=INTEGER},
+      registered_number = #{registeredNumber,jdbcType=VARCHAR},
+      social_credit_code = #{socialCreditCode,jdbcType=VARCHAR},
+      company_establishment_date = #{companyEstablishmentDate,jdbcType=VARCHAR},
+      operating_period = #{operatingPeriod,jdbcType=VARCHAR},
+      approval_date = #{approvalDate,jdbcType=VARCHAR},
+      company_registered_address = #{companyRegisteredAddress,jdbcType=VARCHAR},
+      legal_person_name = #{legalPersonName,jdbcType=VARCHAR},
+      legal_person_ID_code = #{legalPersonIdCode,jdbcType=VARCHAR},
+      legal_person_code_front_photo = #{legalPersonCodeFrontPhoto,jdbcType=VARCHAR},
+      legal_person_code_reverse_photo = #{legalPersonCodeReversePhoto,jdbcType=VARCHAR},
+      card_count = #{cardCount,jdbcType=VARCHAR},
+      card_name = #{cardName,jdbcType=VARCHAR},
+      card_open_account_photo = #{cardOpenAccountPhoto,jdbcType=VARCHAR},
+      card_open_account_address = #{cardOpenAccountAddress,jdbcType=VARCHAR},
+      company_permanent_address = #{companyPermanentAddress,jdbcType=VARCHAR},
+      trade_mark_name = #{tradeMarkName,jdbcType=VARCHAR},
+      trade_mark_regist_people = #{tradeMarkRegistPeople,jdbcType=VARCHAR},
+      trade_mark_regist_photo = #{tradeMarkRegistPhoto,jdbcType=VARCHAR},
+      trade_mark_authorization_photo = #{tradeMarkAuthorizationPhoto,jdbcType=VARCHAR},
+      production_license_number = #{productionLicenseNumber,jdbcType=VARCHAR},
+      production_license_valid_date = #{productionLicenseValidDate,jdbcType=VARCHAR},
+      production_license_photo = #{productionLicensePhoto,jdbcType=VARCHAR},
+      business_license_number = #{businessLicenseNumber,jdbcType=VARCHAR},
+      business_license_valid_date = #{businessLicenseValidDate,jdbcType=VARCHAR},
+      business_license_photo = #{businessLicensePhoto,jdbcType=VARCHAR},
+      actual_operator_name = #{actualOperatorName,jdbcType=VARCHAR},
+      actual_operator_qq = #{actualOperatorQq,jdbcType=VARCHAR},
+      actual_operator_weixin = #{actualOperatorWeixin,jdbcType=VARCHAR},
+      actual_operator_tel = #{actualOperatorTel,jdbcType=VARCHAR},
+      actual_operator_email = #{actualOperatorEmail,jdbcType=VARCHAR},
+      general_leader_name = #{generalLeaderName,jdbcType=VARCHAR},
+      general_leader_tel = #{generalLeaderTel,jdbcType=VARCHAR},
+      general_leader_weixin = #{generalLeaderWeixin,jdbcType=VARCHAR},
+      referrer_name = #{referrerName,jdbcType=VARCHAR},
+      referrer_level = #{referrerLevel,jdbcType=VARCHAR},
+      referrer_id = #{referrerId,jdbcType=VARCHAR},
+      referrer_tel = #{referrerTel,jdbcType=VARCHAR},
+      service_amount = #{serviceAmount,jdbcType=VARCHAR},
+      work_time = #{workTime,jdbcType=VARCHAR},
+      general_taxpayer_photo = #{generalTaxpayerPhoto,jdbcType=VARCHAR},
+      product_test_report_photo = #{productTestReportPhoto,jdbcType=VARCHAR},
+      store_name = #{storeName,jdbcType=VARCHAR},
+      store_contact_people = #{storeContactPeople,jdbcType=VARCHAR},
+      store_contact_people_tel = #{storeContactPeopleTel,jdbcType=VARCHAR},
+      server_qq = #{serverQq,jdbcType=VARCHAR},
+      store_logo = #{storeLogo,jdbcType=VARCHAR},
+      store_pay_password = #{storePayPassword,jdbcType=VARCHAR},
+      store_nick = #{storeNick,jdbcType=VARCHAR},
+      store_password = #{storePassword,jdbcType=VARCHAR},
+      store_number = #{storeNumber,jdbcType=VARCHAR},
+      store_status = #{storeStatus,jdbcType=INTEGER},
+      store_classify = #{storeClassify,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+    <update id="update_storeaccount" parameterType="com.hrtxn.flchappinessmall.pojo.Store">
+        update tb_store set store_account = #{storeAccount,jdbcType=VARCHAR} where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

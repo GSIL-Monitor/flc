@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.ProfitWithdrawLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.ProfitWithdrawLog">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_role" property="userRole" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="application_time" property="applicationTime" jdbcType="VARCHAR"/>
+        <result column="withdraw_type" property="withdrawType" jdbcType="VARCHAR"/>
+        <result column="withdraw_account" property="withdrawAccount" jdbcType="VARCHAR"/>
+        <result column="withdraw_money" property="withdrawMoney" jdbcType="REAL"/>
+        <result column="withdraw_approve_time" property="withdrawApproveTime" jdbcType="VARCHAR"/>
+        <result column="withdraw_handlers" property="withdrawHandlers" jdbcType="VARCHAR"/>
+        <result column="withdraw_status" property="withdrawStatus" jdbcType="INTEGER"/>
+        <result column="withdraw_reject_reason" property="withdrawRejectReason" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_role, user_id, application_time, withdraw_type, withdraw_account, withdraw_money,
+        withdraw_approve_time, withdraw_handlers, withdraw_status,withdraw_reject_reason
+    </sql>
+
+    <!--获取用户分红提现记录-->
+    <select id="getUserProfitWithdrawLogs" resultMap="BaseResultMap">
+        SELECT tp.id, tp.user_role, user_id, application_time, withdraw_type, withdraw_account, withdraw_money,
+               withdraw_approve_time, withdraw_handlers, withdraw_status,withdraw_reject_reason,tu.user_nick AS userNick,tu.user_tel AS userTel
+        FROM tb_profit_withdraw_log  tp INNER JOIN tb_user tu ON tp.user_id = tu.id
+        WHERE withdraw_status = 1 AND tp.user_role = 1
+    </select>
+
+    <!--获取商铺分红提现记录-->
+    <select id="getStoreProfitWithdrawLogs" resultMap="BaseResultMap">
+        SELECT tp.id, tp.user_role, user_id, application_time, withdraw_type, withdraw_account, withdraw_money,
+               withdraw_approve_time, withdraw_handlers, withdraw_status,withdraw_reject_reason,ts.store_name AS userNick,ts.store_contact_people_tel AS userTel
+        FROM tb_profit_withdraw_log tp INNER JOIN tb_store ts ON tp.user_id= ts.id
+        WHERE withdraw_status = 1 AND tp.user_role = 2
+    </select>
+
+    <!--获取用户同意以及驳回的分红提现记录-->
+    <select id="getUserProfitedWithdrawLogs" resultMap="BaseResultMap">
+        SELECT tp.id, tp.user_role, user_id, application_time, withdraw_type, withdraw_account, withdraw_money,
+               withdraw_approve_time, withdraw_handlers, withdraw_status,withdraw_reject_reason,tu.user_nick AS userNick,tu.user_tel AS userTel
+        FROM tb_profit_withdraw_log  tp INNER JOIN tb_user tu ON tp.user_id = tu.id
+        WHERE withdraw_status != 1 AND tp.user_role = 1
+    </select>
+
+    <!--获取商铺同意以及驳回的分红提现记录-->
+    <select id="getStoreProfitedWithdrawLogs" resultMap="BaseResultMap">
+        SELECT tp.id, tp.user_role, user_id, application_time, withdraw_type, withdraw_account, withdraw_money,
+               withdraw_approve_time, withdraw_handlers, withdraw_status,withdraw_reject_reason,ts.store_name AS userNick,ts.store_contact_people_tel AS userTel
+        FROM tb_profit_withdraw_log tp INNER JOIN tb_store ts ON tp.user_id= ts.id
+        WHERE withdraw_status != 1 AND tp.user_role = 2
+    </select>
+
+    <!--修改分红提现记录信息-->
+    <update id="update_ProfitWithdrawLog" parameterType="com.hrtxn.flchappinessmall.pojo.ProfitWithdrawLog">
+        update tb_profit_withdraw_log
+        <set>
+            <if test="withdrawApproveTime != null">
+                withdraw_approve_time = #{withdrawApproveTime,jdbcType=VARCHAR},
+            </if>
+            <if test="withdrawHandlers != null">
+                withdraw_handlers = #{withdrawHandlers,jdbcType=VARCHAR},
+            </if>
+            <if test="withdrawStatus != null">
+                withdraw_status = #{withdrawStatus,jdbcType=INTEGER},
+            </if>
+            <if test="withdrawRejectReason != null">
+                withdraw_reject_reason = #{withdrawRejectReason,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

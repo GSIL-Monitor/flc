@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.EvaluteMapper" >
+
+  <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.Evalute" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="evalute_addtime" property="evaluteAddtime" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="order_num" property="orderNum" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="INTEGER" />
+    <result column="evalute_type" property="evaluteType" jdbcType="INTEGER" />
+    <result column="store_reply_time" property="storeReplyTime" jdbcType="VARCHAR" />
+    <result column="evalute_content" property="evaluteContent" jdbcType="LONGVARCHAR" />
+    <result column="store_reply_content" property="storeReplyContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, evalute_addtime, user_id, order_num, goods_id, evalute_type, store_reply_time,evalute_content, store_reply_content
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_evalute
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_evalute
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hrtxn.flchappinessmall.pojo.Evalute" >
+    insert into tb_evalute (id, evalute_addtime, user_id, 
+      order_num, goods_id, evalute_type, 
+      store_reply_time, evalute_content, store_reply_content
+      )
+    values (#{id,jdbcType=INTEGER}, #{evaluteAddtime,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{orderNum,jdbcType=VARCHAR}, #{goodsId,jdbcType=INTEGER}, #{evaluteType,jdbcType=INTEGER}, 
+      #{storeReplyTime,jdbcType=VARCHAR}, #{evaluteContent,jdbcType=LONGVARCHAR}, #{storeReplyContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hrtxn.flchappinessmall.pojo.Evalute" >
+    insert into tb_evalute
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="evaluteAddtime != null" >
+        evalute_addtime,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="orderNum != null" >
+        order_num,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="evaluteType != null" >
+        evalute_type,
+      </if>
+      <if test="storeReplyTime != null" >
+        store_reply_time,
+      </if>
+      <if test="evaluteContent != null" >
+        evalute_content,
+      </if>
+      <if test="storeReplyContent != null" >
+        store_reply_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="evaluteAddtime != null" >
+        #{evaluteAddtime,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNum != null" >
+        #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="evaluteType != null" >
+        #{evaluteType,jdbcType=INTEGER},
+      </if>
+      <if test="storeReplyTime != null" >
+        #{storeReplyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluteContent != null" >
+        #{evaluteContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="storeReplyContent != null" >
+        #{storeReplyContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrtxn.flchappinessmall.pojo.Evalute" >
+    update tb_evalute
+    <set >
+      <if test="evaluteAddtime != null" >
+        evalute_addtime = #{evaluteAddtime,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNum != null" >
+        order_num = #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="evaluteType != null" >
+        evalute_type = #{evaluteType,jdbcType=INTEGER},
+      </if>
+      <if test="storeReplyTime != null" >
+        store_reply_time = #{storeReplyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluteContent != null" >
+        evalute_content = #{evaluteContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="storeReplyContent != null" >
+        store_reply_content = #{storeReplyContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hrtxn.flchappinessmall.pojo.Evalute" >
+    update tb_evalute
+    set evalute_addtime = #{evaluteAddtime,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      order_num = #{orderNum,jdbcType=VARCHAR},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      evalute_type = #{evaluteType,jdbcType=INTEGER},
+      store_reply_time = #{storeReplyTime,jdbcType=VARCHAR},
+      evalute_content = #{evaluteContent,jdbcType=LONGVARCHAR},
+      store_reply_content = #{storeReplyContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrtxn.flchappinessmall.pojo.Evalute" >
+    update tb_evalute
+    set evalute_addtime = #{evaluteAddtime,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      order_num = #{orderNum,jdbcType=VARCHAR},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      evalute_type = #{evaluteType,jdbcType=INTEGER},
+      store_reply_time = #{storeReplyTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

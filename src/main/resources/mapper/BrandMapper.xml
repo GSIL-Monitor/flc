@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.BrandMapper" >
+  <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.Brand" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="brand_addtime" property="brandAddtime" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="brand_logo" property="brandLogo" jdbcType="VARCHAR" />
+    <result column="brand_type" property="brandType" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.hrtxn.flchappinessmall.pojo.Brand" extends="BaseResultMap" >
+    <result column="brand_description" property="brandDescription" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, brand_addtime, brand_name, brand_logo, brand_type
+  </sql>
+
+  <sql id="Blob_Column_List" >
+    brand_description
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_brand
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <select id="selectBrandAll" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_brand
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_brand
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.hrtxn.flchappinessmall.pojo.Brand" >
+    insert into tb_brand (id, brand_addtime, brand_name, 
+      brand_logo, brand_type, brand_description
+      )
+    values (#{id,jdbcType=INTEGER}, #{brandAddtime,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR}, 
+      #{brandLogo,jdbcType=VARCHAR}, #{brandType,jdbcType=INTEGER}, #{brandDescription,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hrtxn.flchappinessmall.pojo.Brand" >
+    insert into tb_brand
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="brandAddtime != null" >
+        brand_addtime,
+      </if>
+      <if test="brandName != null" >
+        brand_name,
+      </if>
+      <if test="brandLogo != null" >
+        brand_logo,
+      </if>
+      <if test="brandType != null" >
+        brand_type,
+      </if>
+      <if test="brandDescription != null" >
+        brand_description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="brandAddtime != null" >
+        #{brandAddtime,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandLogo != null" >
+        #{brandLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="brandType != null" >
+        #{brandType,jdbcType=INTEGER},
+      </if>
+      <if test="brandDescription != null" >
+        #{brandDescription,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrtxn.flchappinessmall.pojo.Brand" >
+    update tb_brand
+    <set >
+      <if test="brandAddtime != null" >
+        brand_addtime = #{brandAddtime,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandLogo != null" >
+        brand_logo = #{brandLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="brandType != null" >
+        brand_type = #{brandType,jdbcType=INTEGER},
+      </if>
+      <if test="brandDescription != null" >
+        brand_description = #{brandDescription,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hrtxn.flchappinessmall.pojo.Brand" >
+    update tb_brand
+    set brand_addtime = #{brandAddtime,jdbcType=VARCHAR},
+      brand_name = #{brandName,jdbcType=VARCHAR},
+      brand_logo = #{brandLogo,jdbcType=VARCHAR},
+      brand_type = #{brandType,jdbcType=INTEGER},
+      brand_description = #{brandDescription,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrtxn.flchappinessmall.pojo.Brand" >
+    update tb_brand
+    set brand_addtime = #{brandAddtime,jdbcType=VARCHAR},
+      brand_name = #{brandName,jdbcType=VARCHAR},
+      brand_logo = #{brandLogo,jdbcType=VARCHAR},
+      brand_type = #{brandType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

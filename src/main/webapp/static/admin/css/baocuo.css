@@ -1,0 +1,42 @@
+.wbk {
+	width: 100%;
+	background-image: url(../images/500.jpg);
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 150px;
+	margin: 0px;
+	padding-top: 410px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+.wbk .baocuo {
+	font-size: 15px;
+	line-height: 30px;
+	padding: 0px;
+	width: 500px;
+	margin-top: 0px;
+	margin-right: auto;
+	margin-bottom: 0px;
+	margin-left: auto;
+}
+.wbk .baocuo span {
+	float: left;
+	margin-right: 40px;
+	margin-left: 60px;
+}
+
+.wbk .baocuo .ann {
+	text-decoration: none;
+	color: #FFF;
+	font-size: 13px;
+	display: block;
+	float: left;
+	margin-right: 10px;
+	margin-left: 10px;
+	background-color: #2DB7F5;
+	text-align: center;
+	padding-right: 10px;
+	padding-left: 10px;
+	border-radius:3px;
+}

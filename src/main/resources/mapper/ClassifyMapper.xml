@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.ClassifyMapper">
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.Classify">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="classify_addtime" property="classifyAddtime" jdbcType="VARCHAR"/>
+        <result column="classify_name" property="classifyName" jdbcType="VARCHAR"/>
+        <result column="classify_level" property="classifyLevel" jdbcType="INTEGER"/>
+        <result column="classify_parentid" property="classifyParentid" jdbcType="INTEGER"/>
+        <result column="classify_logo" property="classifyLogo" jdbcType="VARCHAR"/>
+        <result column="classify_type" property="classifyType" jdbcType="INTEGER"/>
+        <result column="classify_index" property="classifyIndex"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.hrtxn.flchappinessmall.pojo.Classify" extends="BaseResultMap">
+        <result column="classify_description" property="classifyDescription" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, classify_addtime, classify_name, classify_level, classify_parentid, classify_logo,
+    classify_type,classify_index
+  </sql>
+    <sql id="Blob_Column_List">
+    classify_description
+  </sql>
+    <!--根据id获取分类-->
+    <select id="selectClassifyById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_classify
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+
+    <!--根据一级id获取二级分类-->
+    <select id="selectClassifyByParentId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_classify
+        where classify_parentid = #{parentid,jdbcType=INTEGER}
+    </select>
+
+    <!--根据二级id获取三级分类-->
+    <select id="selectThreeClassifyByTwoPId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_classify
+        where classify_parentid in
+        <foreach item="classifyList" index="index" collection="list"
+                 open="(" separator="," close=")">
+            #{classifyList.id}
+        </foreach>
+    </select>
+
+
+    <!--查询所有分类-->
+    <select id="selectClassifyAll" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_classify
+    </select>
+    <!--获取指定等级分类-->
+    <select id="selectClassifyByLevel" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_classify
+        where classify_level = #{classifyLevel,jdbcType=INTEGER}
+    </select>
+
+    <!--获取被推荐分类-->
+    <select id="selectClassifyByIndex" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_classify
+        where classify_index = #{classifyIndex,jdbcType=INTEGER}
+    </select>
+
+
+    <!--根据父级id批量修改 为隐藏状态-->
+
+    <update id="updateClassifyTypeByPId1">
+        update tb_classify
+        set
+        classify_type = 1
+        where 1=1 and
+        classify_parentid in
+        <foreach collection="list" index="index" item="classify" open="("
+                 separator="," close=")">
+            #{classify.id}
+        </foreach>
+
+    </update>
+
+    <update id="updateClassifyTypeByPId2">
+        update tb_classify
+        set
+        classify_type = 2
+        where 1=1 and
+        classify_parentid in
+        <foreach collection="list" index="index" item="classify" open="("
+                 separator="," close=")">
+            #{classify.id}
+        </foreach>
+
+    </update>
+
+
+    <!--根据id获取分类-->
+    <select id="getClassifyByPId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_classify
+        where classify_parentid = #{parentId}
+    </select>
+
+
+    <resultMap id="ClassifyTypeVoCloum" type="com.hrtxn.flchappinessmall.pojo.pojoVo.ClassifyTypeVo">
+        <id column="oneClassId" property="id" jdbcType="INTEGER"/>
+        <result column="oneClassName" property="name"/>
+        <result column="oneType" property="type"/>
+        <collection property="classifyTypeVoList" ofType="com.hrtxn.flchappinessmall.pojo.pojoVo.ClassifyTypeVo"
+                    column="twoClassId">
+            <id column="twoClassId" property="id"/><!-- 这里的column对应的是下面查询的别名，而不是表字段名 -->
+            <result column="twoClassName" property="name"/><!-- property对应JavaBean中的属性名 -->
+            <result column="twoType" property="type"/>
+            <collection property="classifyTypeVoList" ofType="com.hrtxn.flchappinessmall.pojo.pojoVo.ClassifyTypeVo"
+                        column="threeClassId">
+                <id column="threeClassId" property="id"/>
+                <result column="threeClassName" property="name"/>
+                <result column="threeType" property="type"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="selectClassifyType" resultMap="ClassifyTypeVoCloum">
+
+    SELECT
+one.id AS oneClassId,
+one.classify_name AS oneClassName,
+two.id AS twoClassId,
+two.classify_name AS twoClassName,
+three.id AS threeClassId,
+three.classify_name AS threeClassName,
+one.classify_type AS oneType,
+two.classify_type AS twoType,
+three.classify_type AS threeType
+FROM
+tb_classify AS one
+INNER JOIN tb_classify AS two ON one.id = two.classify_parentid
+INNER JOIN tb_classify AS three ON two.id = three.classify_parentid
+WHERE
+one.id = #{id}
+  </select>
+
+
+    <!--根据id删除一级分类-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_classify
+    where id = #{id}
+  </delete>
+
+    <!--根据一级分类Id删除二级分类-->
+    <delete id="deleteByOnePKey" parameterType="java.lang.Integer">
+    delete from tb_classify
+    where classify_parentid = #{id}
+  </delete>
+
+
+    <!--根据分类id(集合)删除分类-->
+    <delete id="deleteByIdList" parameterType="java.lang.Integer">
+        delete from tb_classify
+        where id in
+        <foreach item="classifyList" index="index" collection="list"
+                 open="(" separator="," close=")">
+            #{classifyList.id}
+        </foreach>
+    </delete>
+
+
+    <insert id="insert" parameterType="com.hrtxn.flchappinessmall.pojo.Classify">
+    insert into tb_classify (id, classify_addtime, classify_name, 
+      classify_level, classify_parentid, classify_logo, 
+      classify_type, classify_description)
+    values (#{id,jdbcType=INTEGER}, #{classifyAddtime,jdbcType=VARCHAR}, #{classifyName,jdbcType=VARCHAR}, 
+      #{classifyLevel,jdbcType=INTEGER}, #{classifyParentid,jdbcType=INTEGER}, #{classifyLogo,jdbcType=VARCHAR}, 
+      #{classifyType,jdbcType=INTEGER}, #{classifyDescription,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.hrtxn.flchappinessmall.pojo.Classify">
+        insert into tb_classify
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="classifyAddtime != null">
+                classify_addtime,
+            </if>
+            <if test="classifyName != null">
+                classify_name,
+            </if>
+            <if test="classifyLevel != null">
+                classify_level,
+            </if>
+            <if test="classifyParentid != null">
+                classify_parentid,
+            </if>
+            <if test="classifyLogo != null">
+                classify_logo,
+            </if>
+            <if test="classifyType != null">
+                classify_type,
+            </if>
+            <if test="classifyDescription != null">
+                classify_description,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="classifyAddtime != null">
+                #{classifyAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="classifyName != null">
+                #{classifyName,jdbcType=VARCHAR},
+            </if>
+            <if test="classifyLevel != null">
+                #{classifyLevel,jdbcType=INTEGER},
+            </if>
+            <if test="classifyParentid != null">
+                #{classifyParentid,jdbcType=INTEGER},
+            </if>
+            <if test="classifyLogo != null">
+                #{classifyLogo,jdbcType=VARCHAR},
+            </if>
+            <if test="classifyType != null">
+                #{classifyType,jdbcType=INTEGER},
+            </if>
+            <if test="classifyDescription != null">
+                #{classifyDescription,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.hrtxn.flchappinessmall.pojo.Classify">
+        update tb_classify
+        <set>
+            <if test="classifyAddtime != null">
+                classify_addtime = #{classifyAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="classifyName != null">
+                classify_name = #{classifyName,jdbcType=VARCHAR},
+            </if>
+            <if test="classifyLevel != null">
+                classify_level = #{classifyLevel,jdbcType=INTEGER},
+            </if>
+            <if test="classifyParentid != null">
+                classify_parentid = #{classifyParentid,jdbcType=INTEGER},
+            </if>
+            <if test="classifyLogo != null">
+                classify_logo = #{classifyLogo,jdbcType=VARCHAR},
+            </if>
+            <if test="classifyType != null">
+                classify_type = #{classifyType,jdbcType=INTEGER},
+            </if>
+            <if test="classifyDescription != null">
+                classify_description = #{classifyDescription,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="classifyIndex != null">
+                classify_index = #{classifyIndex},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hrtxn.flchappinessmall.pojo.Classify">
+    update tb_classify
+    set classify_addtime = #{classifyAddtime,jdbcType=VARCHAR},
+      classify_name = #{classifyName,jdbcType=VARCHAR},
+      classify_level = #{classifyLevel,jdbcType=INTEGER},
+      classify_parentid = #{classifyParentid,jdbcType=INTEGER},
+      classify_logo = #{classifyLogo,jdbcType=VARCHAR},
+      classify_type = #{classifyType,jdbcType=INTEGER},
+      classify_description = #{classifyDescription,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.hrtxn.flchappinessmall.pojo.Classify">
+    update tb_classify
+    set classify_addtime = #{classifyAddtime,jdbcType=VARCHAR},
+      classify_name = #{classifyName,jdbcType=VARCHAR},
+      classify_level = #{classifyLevel,jdbcType=INTEGER},
+      classify_parentid = #{classifyParentid,jdbcType=INTEGER},
+      classify_logo = #{classifyLogo,jdbcType=VARCHAR},
+      classify_type = #{classifyType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

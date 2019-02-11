@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.ShareProfitSourceLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.ShareProfitSourceLog">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="addtime" property="addtime" jdbcType="VARCHAR"/>
+        <result column="money" property="money" jdbcType="REAL"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="handlers" property="handlers" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, addtime, money, user_id, handlers,type
+    </sql>
+
+    <!--获取某一用户发放的分红-->
+    <select id="getProfitLog" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+          <include refid="Base_Column_List"/>
+        from
+          tb_share_profit_source_log
+        where
+          user_id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!--添加平台充值分红记录-->
+    <insert id="addPlateGrantProfitLog" parameterType="com.hrtxn.flchappinessmall.pojo.ShareProfitSourceLog">
+        insert into tb_share_profit_source_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="addtime != null">
+                addtime,
+            </if>
+            <if test="money != null">
+                money,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="handlers != null">
+                handlers,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="addtime != null">
+                #{addtime,jdbcType=VARCHAR},
+            </if>
+            <if test="money != null">
+                #{money,jdbcType=REAL},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="handlers != null">
+                #{handlers,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--根据类型获取分红记录-->
+    <select id="getShareProfitSourceLogByType" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT tb_share_profit_source_log.id, ADDTIME, money, user_id, handlers,TYPE ,tb_user.user_nick AS userNick , tb_user.user_role AS userRole , tb_user.user_tel AS userTel
+        FROM tb_share_profit_source_log INNER JOIN tb_user ON tb_share_profit_source_log.user_id = tb_user.id
+        WHERE tb_share_profit_source_log.type = #{type}
+    </select>
+
+    <!--根据当前日期和分红类型获取分红来源记录-->
+    <select id="getShareProfitLog" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM tb_share_profit_source_log WHERE tb_share_profit_source_log.type = #{type} AND TO_DAYS(addtime) = TO_DAYS('${format}');
+    </select>
+</mapper>

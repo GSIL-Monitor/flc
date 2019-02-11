@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.ProfitHiostoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.ProfitHiostory">
+        <result column="addtime" property="addtime" jdbcType="VARCHAR"/>
+        <result column="profit_hiostory_date" property="profitHiostoryDate" jdbcType="VARCHAR"/>
+        <result column="profit_hiostory_end_date" property="profitHiostoryEndDate" jdbcType="VARCHAR"/>
+        <result column="sum_profit_money" property="sumProfitMoney" jdbcType="REAL"/>
+        <result column="userIds" property="userIds" jdbcType="VARCHAR"/>
+        <result column="profit_type" property="profitType" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--添加发放分红操作-->
+    <insert id="addProfitHiostory" parameterType="com.hrtxn.flchappinessmall.pojo.ProfitHiostory">
+        insert into tb_profit_hiostory
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="addtime != null">
+                addtime,
+            </if>
+            <if test="profitHiostoryDate != null">
+                profit_hiostory_date,
+            </if>
+            <if test="profitHiostoryEndDate != null">
+                profit_hiostory_end_date,
+            </if>
+            <if test="sumProfitMoney != null">
+                sum_profit_money,
+            </if>
+            <if test="userIds != null">
+                userIds,
+            </if>
+            <if test="profitType != null">
+                profit_type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="addtime != null">
+                #{addtime,jdbcType=VARCHAR},
+            </if>
+            <if test="profitHiostoryDate != null">
+                #{profitHiostoryDate,jdbcType=VARCHAR},
+            </if>
+            <if test="profitHiostoryEndDate != null">
+                #{profitHiostoryEndDate,jdbcType=VARCHAR},
+            </if>
+            <if test="sumProfitMoney != null">
+                #{sumProfitMoney,jdbcType=REAL},
+            </if>
+            <if test="userIds != null">
+                #{userIds,jdbcType=VARCHAR},
+            </if>
+            <if test="profitType != null">
+                #{profitType,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--获取对应日期的分红总额-->
+    <select id="getDaySum" resultType="java.lang.String">
+        SELECT FORMAT(SUM(sum_profit_money),2) FROM tb_profit_hiostory WHERE profit_type = 1 AND <![CDATA[profit_hiostory_date >= #{weekRangeOne} and profit_hiostory_date <= #{weekRangeLast} ]]> ;
+    </select>
+
+    <!--获取对应日期发放的周分红总额-->
+    <select id="getWeekSum" resultType="java.lang.String">
+        SELECT FORMAT(SUM(sum_profit_money),2) FROM tb_profit_hiostory WHERE profit_type = 2 AND <![CDATA[profit_hiostory_date >= #{lastMonthOne} and profit_hiostory_date <= #{lastMonthLast} ]]> ;
+    </select>
+
+    <!--获取对应日期发放的月分红总额-->
+    <select id="getMonthSum" resultType="java.lang.String">
+        SELECT FORMAT(SUM(sum_profit_money),2) FROM tb_profit_hiostory WHERE profit_type = 3 AND <![CDATA[profit_hiostory_date >= #{lastQuarterOne} and profit_hiostory_date <= #{lastQuarterLast} ]]> ;
+    </select>
+
+    <!--获取对应日期发放的季度分红总额-->
+    <select id="getQuarterSum" resultType="java.lang.String">
+      SELECT FORMAT(SUM(sum_profit_money),2) FROM tb_profit_hiostory WHERE profit_type = 4 AND <![CDATA[profit_hiostory_date >= #{lastYearOne} and profit_hiostory_date <= #{lastYearLast} ]]> ;
+    </select>
+
+    <!--获取对应日期发放的年分红总额-->
+    <select id="getYearSum" resultType="java.lang.String">
+        SELECT FORMAT(SUM(sum_profit_money),2) FROM tb_profit_hiostory WHERE profit_type = 5 AND <![CDATA[profit_hiostory_date >= #{lastYearOne} and profit_hiostory_date <= #{lastYearLast} ]]> ;
+    </select>
+</mapper>

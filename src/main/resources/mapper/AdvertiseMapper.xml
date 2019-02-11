@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.AdvertiseMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.Advertise">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="adver_addTime" property="adverAddtime" jdbcType="VARCHAR"/>
+        <result column="adver_location" property="adverLocation" jdbcType="INTEGER"/>
+        <result column="adver_platform" property="adverPlatform" jdbcType="INTEGER"/>
+        <result column="adver_imageUrl" property="adverImageurl" jdbcType="VARCHAR"/>
+        <result column="adver_content" property="adverContent" jdbcType="VARCHAR"/>
+        <result column="adver_contentUrl" property="adverContenturl" jdbcType="VARCHAR"/>
+        <result column="adver_type" property="adverType" jdbcType="INTEGER"/>
+        <result column="adver_handlers_type" property="adverHandlersType" jdbcType="INTEGER"/>
+        <result column="adver_handlers_name" property="adverHandlersName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, adver_addTime, adver_location, adver_platform, adver_imageUrl, adver_content,
+        adver_contentUrl, adver_type, adver_handlers_type, adver_handlers_name
+    </sql>
+
+    <!--获取所有广告信息-->
+    <select id="getAllAdvertise" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+            <include refid="Base_Column_List"/>
+        FROM
+            tb_advertise
+        WHERE
+            adver_handlers_type = 2
+    </select>
+
+    <!--根据ID获取广告信息-->
+    <select id="getAdvertiseById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+          <include refid="Base_Column_List"/>
+        FROM
+          tb_advertise
+        WHERE
+          id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!--删除广告-->
+    <delete id="deleteAdvertise" parameterType="java.lang.Integer">
+        DELETE FROM
+            tb_advertise
+        WHERE
+          id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!--添加广告-->
+    <insert id="addAdvertise" parameterType="com.hrtxn.flchappinessmall.pojo.Advertise">
+        insert into tb_advertise
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="adverAddtime != null">
+                adver_addTime,
+            </if>
+            <if test="adverLocation != null">
+                adver_location,
+            </if>
+            <if test="adverPlatform != null">
+                adver_platform,
+            </if>
+            <if test="adverImageurl != null">
+                adver_imageUrl,
+            </if>
+            <if test="adverContent != null">
+                adver_content,
+            </if>
+            <if test="adverContenturl != null">
+                adver_contentUrl,
+            </if>
+            <if test="adverType != null">
+                adver_type,
+            </if>
+            <if test="adverHandlersType != null">
+                adver_handlers_type,
+            </if>
+            <if test="adverHandlersName != null">
+                adver_handlers_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="adverAddtime != null">
+                #{adverAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="adverLocation != null">
+                #{adverLocation,jdbcType=INTEGER},
+            </if>
+            <if test="adverPlatform != null">
+                #{adverPlatform,jdbcType=INTEGER},
+            </if>
+            <if test="adverImageurl != null">
+                #{adverImageurl,jdbcType=VARCHAR},
+            </if>
+            <if test="adverContent != null">
+                #{adverContent,jdbcType=VARCHAR},
+            </if>
+            <if test="adverContenturl != null">
+                #{adverContenturl,jdbcType=VARCHAR},
+            </if>
+            <if test="adverType != null">
+                #{adverType,jdbcType=INTEGER},
+            </if>
+            <if test="adverHandlersType != null">
+                #{adverHandlersType,jdbcType=INTEGER},
+            </if>
+            <if test="adverHandlersName != null">
+                #{adverHandlersName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--修改广告信息-->
+    <update id="update_advertise" parameterType="com.hrtxn.flchappinessmall.pojo.Advertise">
+        update tb_advertise
+        <set>
+            <if test="adverAddtime != null">
+                adver_addTime = #{adverAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="adverLocation != null">
+                adver_location = #{adverLocation,jdbcType=INTEGER},
+            </if>
+            <if test="adverPlatform != null">
+                adver_platform = #{adverPlatform,jdbcType=INTEGER},
+            </if>
+            <if test="adverImageurl != null">
+                adver_imageUrl = #{adverImageurl,jdbcType=VARCHAR},
+            </if>
+            <if test="adverContent != null">
+                adver_content = #{adverContent,jdbcType=VARCHAR},
+            </if>
+            <if test="adverContenturl != null">
+                adver_contentUrl = #{adverContenturl,jdbcType=VARCHAR},
+            </if>
+            <if test="adverType != null">
+                adver_type = #{adverType,jdbcType=INTEGER},
+            </if>
+            <if test="adverHandlersType != null">
+                adver_handlers_type = #{adverHandlersType,jdbcType=INTEGER},
+            </if>
+            <if test="adverHandlersName != null">
+                adver_handlers_name = #{adverHandlersName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.OrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.Order">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_addtime" property="orderAddtime" jdbcType="VARCHAR"/>
+        <result column="order_num" property="orderNum" jdbcType="VARCHAR"/>
+        <result column="receiver_name" property="receiverName" jdbcType="VARCHAR"/>
+        <result column="receiver_tel" property="receiverTel" jdbcType="VARCHAR"/>
+        <result column="receiver_address" property="receiverAddress" jdbcType="LONGVARCHAR"/>
+        <result column="receiver_postcode" property="receiverPostcode" jdbcType="VARCHAR"/>
+        <result column="order_status" property="orderStatus" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="goods_parameter" property="goodsParameter" jdbcType="VARCHAR"/>
+        <result column="goods_amount" property="goodsAmount" jdbcType="INTEGER"/>
+        <result column="goods_price" property="goodsPrice" jdbcType="REAL"/>
+        <result column="goods_actual_price" property="goodsActualPrice" jdbcType="REAL"/>
+        <result column="goods_supply_price" property="goodsupplyPrice" jdbcType="REAL"/>
+        <result column="goods_freight" property="goodsFreight" jdbcType="REAL"/>
+        <result column="store_id" property="storeId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="oreder_pay_type" property="orederPayType" jdbcType="INTEGER"/>
+        <result column="order_pay_num" property="orderPayNum" jdbcType="VARCHAR"/>
+        <result column="order_pay_time" property="orderPayTime" jdbcType="VARCHAR"/>
+        <result column="order_shipments_time" property="orderShipmentsTime" jdbcType="VARCHAR"/>
+        <result column="order_takegoods_time" property="orderTakegoodsTime" jdbcType="VARCHAR"/>
+        <result column="order_evaluate_time" property="orderEvaluateTime" jdbcType="VARCHAR"/>
+        <result column="invoice_type" property="invoiceType" jdbcType="INTEGER"/>
+        <result column="invoice_title" property="invoiceTitle" jdbcType="VARCHAR"/>
+        <result column="invoice_duty_paragraph" property="invoiceDutyParagraph" jdbcType="VARCHAR"/>
+        <result column="invoice_open_bank" property="invoiceOpenBank" jdbcType="VARCHAR"/>
+        <result column="invoice_bank_card" property="invoiceBankCard" jdbcType="VARCHAR"/>
+        <result column="invoice_compay_address" property="invoiceCompayAddress" jdbcType="VARCHAR"/>
+        <result column="invoice_tel" property="invoiceTel" jdbcType="VARCHAR"/>
+        <result column="logistics_company" property="logisticsCompany" jdbcType="VARCHAR"/>
+        <result column="logistics_num" property="logisticsNum" jdbcType="VARCHAR"/>
+        <result column="user_isdelete_flag" property="userIsdeleteFlag" jdbcType="INTEGER"/>
+        <result column="store_isdelete_flag" property="storeIsdeleteFlag" jdbcType="INTEGER"/>
+        <result column="plate_isdelete_flag" property="plateIsdeleteFlag" jdbcType="INTEGER"/>
+        <result column="isdiscount_flag" property="isdiscountFlag" jdbcType="INTEGER"/>
+        <result column="reasons" property="reasons" jdbcType="VARCHAR"/>
+        <result column="remind_time" property="remindTime" jdbcType="VARCHAR"/>
+        <result column="remind_num" property="remindNum" jdbcType="VARCHAR"/>
+        <result column="msg" property="msg" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, order_addtime, order_num, receiver_name, receiver_tel, receiver_postcode, order_status,
+        goods_id, goods_parameter, goods_amount, goods_price, goods_actual_price, goods_freight,
+        store_id, user_id, oreder_pay_type, order_pay_num, order_pay_time, order_shipments_time,
+        order_takegoods_time, order_evaluate_time, invoice_type, invoice_title,
+        invoice_duty_paragraph, invoice_open_bank, invoice_bank_card, invoice_compay_address,
+        invoice_tel, logistics_company, logistics_num, user_isdelete_flag, store_isdelete_flag,
+        plate_isdelete_flag, isdiscount_flag,receiver_address,reasons,remind_time,remind_num,msg
+    </sql>
+
+    <!--获取成交总额（获取交易成功的订单）-->
+    <select id="getSUMMoneyByOrderStatus" resultType="java.lang.String" parameterType="java.lang.Integer">
+        SELECT FORMAT(SUM(goods_actual_price - goods_freight),2) FROM tb_order WHERE order_status = #{orderStatus,jdbcType=INTEGER}
+    </select>
+
+    <!--根据订单的不同状态获取订单-->
+    <select id="getOrderByOrderStatus" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT tb_order.*,tb_goods.goods_name AS goodsName ,tb_refund_log.refund_money AS refundMoney, tb_refund_log.reasons AS refundReasons,
+            tb_refund_log.refund_big_status AS refundBigStatus,tb_refund_log.application_time AS applicationTime
+        FROM tb_order
+        INNER JOIN tb_goods ON tb_goods.id = tb_order.goods_id
+        INNER JOIN tb_refund_log ON tb_order.order_num = tb_refund_log.order_num
+        WHERE plate_isdelete_flag = 1 AND order_status = #{orderStatus,jdbcType=INTEGER}
+    </select>
+
+    <!--根据订单编号获取订单信息-->
+    <select id="getOrderByOrderNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT tb_order.*,tb_goods.goods_name AS goodsName,tb_goods.goods_inventory AS goodsInventory FROM tb_order INNER JOIN tb_goods ON tb_goods.id = tb_order.goods_id
+        WHERE plate_isdelete_flag = 1 AND order_num = #{orderNum,jdbcType=VARCHAR}
+    </select>
+
+    <!--获取当天成交额-->
+    <select id="getTodaySUMMoney" resultType="java.lang.Object">
+        SELECT FORMAT(SUM(goods_actual_price - goods_freight),2) FROM tb_order WHERE order_status = 5 AND TO_DAYS(order_addtime) = TO_DAYS(CURRENT_DATE());
+    </select>
+
+    <!--获取所有订单-->
+    <select id="getOrderList" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM tb_order WHERE plate_isdelete_flag = 1
+    </select>
+
+    <!--修改订单信息-->
+    <update id="update_order" parameterType="com.hrtxn.flchappinessmall.pojo.Order">
+        update tb_order
+        <set>
+            <if test="orderAddtime != null">
+                order_addtime = #{orderAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNum != null">
+                order_num = #{orderNum,jdbcType=VARCHAR},
+            </if>
+            <if test="receiverName != null">
+                receiver_name = #{receiverName,jdbcType=VARCHAR},
+            </if>
+            <if test="receiverTel != null">
+                receiver_tel = #{receiverTel,jdbcType=VARCHAR},
+            </if>
+            <if test="receiverPostcode != null">
+                receiver_postcode = #{receiverPostcode,jdbcType=VARCHAR},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{goodsId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsParameter != null">
+                goods_parameter = #{goodsParameter,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsAmount != null">
+                goods_amount = #{goodsAmount,jdbcType=INTEGER},
+            </if>
+            <if test="goodsPrice != null">
+                goods_price = #{goodsPrice,jdbcType=REAL},
+            </if>
+            <if test="goodsActualPrice != null">
+                goods_actual_price = #{goodsActualPrice,jdbcType=REAL},
+            </if>
+            <if test="goodsFreight != null">
+                goods_freight = #{goodsFreight,jdbcType=REAL},
+            </if>
+            <if test="storeId != null">
+                store_id = #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="orederPayType != null">
+                oreder_pay_type = #{orederPayType,jdbcType=INTEGER},
+            </if>
+            <if test="orderPayNum != null">
+                order_pay_num = #{orderPayNum,jdbcType=VARCHAR},
+            </if>
+            <if test="orderPayTime != null">
+                order_pay_time = #{orderPayTime,jdbcType=VARCHAR},
+            </if>
+            <if test="orderShipmentsTime != null">
+                order_shipments_time = #{orderShipmentsTime,jdbcType=VARCHAR},
+            </if>
+            <if test="orderTakegoodsTime != null">
+                order_takegoods_time = #{orderTakegoodsTime,jdbcType=VARCHAR},
+            </if>
+            <if test="orderEvaluateTime != null">
+                order_evaluate_time = #{orderEvaluateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceType != null">
+                invoice_type = #{invoiceType,jdbcType=INTEGER},
+            </if>
+            <if test="invoiceTitle != null">
+                invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceDutyParagraph != null">
+                invoice_duty_paragraph = #{invoiceDutyParagraph,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceOpenBank != null">
+                invoice_open_bank = #{invoiceOpenBank,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceBankCard != null">
+                invoice_bank_card = #{invoiceBankCard,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceCompayAddress != null">
+                invoice_compay_address = #{invoiceCompayAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceTel != null">
+                invoice_tel = #{invoiceTel,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsCompany != null">
+                logistics_company = #{logisticsCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsNum != null">
+                logistics_num = #{logisticsNum,jdbcType=VARCHAR},
+            </if>
+            <if test="userIsdeleteFlag != null">
+                user_isdelete_flag = #{userIsdeleteFlag,jdbcType=INTEGER},
+            </if>
+            <if test="storeIsdeleteFlag != null">
+                store_isdelete_flag = #{storeIsdeleteFlag,jdbcType=INTEGER},
+            </if>
+            <if test="plateIsdeleteFlag != null">
+                plate_isdelete_flag = #{plateIsdeleteFlag,jdbcType=INTEGER},
+            </if>
+            <if test="isdiscountFlag != null">
+                isdiscount_flag = #{isdiscountFlag,jdbcType=INTEGER},
+            </if>
+            <if test="receiverAddress != null">
+                receiver_address = #{receiverAddress,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--获取今日订单CURRENT_DATE()函数获取的是国际统一时间，不会依据服务器的时间改变而改变 yyyy-MM-dd -->
+    <select id="getTodayOrder" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM tb_order WHERE plate_isdelete_flag = 1 AND TO_DAYS(order_addtime) = TO_DAYS(CURRENT_DATE());
+    </select>
+
+    <!--获取当月订单NOW()函数获取的是国际统一时间，不会依据服务器的时间而改变 yyyy-MM-dd HH:mm:ss-->
+    <select id="getMonthOrder" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM tb_order WHERE plate_isdelete_flag = 1 AND DATE_FORMAT(order_addtime,'%Y-%m')=DATE_FORMAT(NOW(),'%Y-%m')
+    </select>
+
+    <!--获取当月每天成交订单或者失败订单的数量-->
+    <select id="getEchartsOrder" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_order WHERE order_status = ${orderStatus} AND TO_DAYS(order_addtime) = TO_DAYS('${monthTime}');
+    </select>
+
+    <!--获取当月每天成交订单金额-->
+    <select id="getEchartsOrderMoney" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT FORMAT(SUM(goods_actual_price - goods_freight),2) FROM tb_order WHERE order_status = 5 AND TO_DAYS(order_addtime) = TO_DAYS('${monthTime}');
+    </select>
+
+    <!--获取总订单数量-->
+    <select id="getOrderCount" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_order
+        <trim prefix="WHERE" suffixOverrides="">
+            <if test="orderStatus != 0">
+                order_status = ${orderStatus}
+            </if>
+        </trim>
+    </select>
+
+    <!--获取订单总数量（不包含逻辑删除订单）-->
+    <select id="getOrderCountUnBeltDelete" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_order
+        <trim prefix="WHERE" suffixOverrides="">
+            plate_isdelete_flag = 1
+            <if test="orderStatus != 0">
+                AND order_status = ${orderStatus}
+            </if>
+        </trim>
+    </select>
+
+    <!--获取供货总价-->
+    <select id="getGoodsSupplyPrice" resultType="java.lang.String">
+        SELECT FORMAT(SUM(goods_supply_price),2) FROM tb_order WHERE tb_order.order_status = 5
+    </select>
+
+    <!--获取零售价 SUM(每笔订单的实际支付价格 - 每笔订单的运费） -->
+    <select id="getGoodsRetailPrice" resultType="java.lang.String">
+        SELECT FORMAT(SUM(goods_actual_price - goods_freight),2) FROM tb_order WHERE tb_order.order_status = 5
+    </select>
+
+    <!--获取产品销售总提成-->
+    <select id="getSUMSalesCommission" resultType="java.lang.String">
+        SELECT FORMAT(SUM(commission),2) FROM tb_order WHERE order_status = 5
+    </select>
+
+    <!--获取每月各状态订单数量-->
+    <select id="getMonthOrderQuantity" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_order
+        <trim prefix="WHERE" suffixOverrides="">
+            order_addtime LIKE '${month}%'
+            <if test="orderStatus != 0">
+                AND order_status = ${orderStatus}
+            </if>
+        </trim>
+    </select>
+
+    <!--获取订单列表-->
+    <select id="getAllOrderList" resultMap="BaseResultMap">
+        SELECT tor.*,ts.store_name AS storeName ,tg.goods_name AS goodsName, tu.user_nick AS userNick,tc.`classify_name` AS oneClassifyName FROM tb_order tor
+        INNER JOIN tb_store ts ON tor.store_id = ts.id
+        INNER JOIN tb_goods tg ON tor.goods_id = tg.id
+        INNER JOIN tb_user tu ON tor.user_id = tu.id
+        INNER JOIN tb_classify tc ON tg.one_classifyid = tc.id
+        WHERE plate_isdelete_flag = 1
+    </select>
+
+    <!--获取订单分组-->
+    <select id="getOrderGroupByOneClassifyId" resultMap="BaseResultMap">
+        SELECT COUNT(tor.id) AS groupSum, tg.one_classifyid AS oneClassifyid,tc.classify_name AS oneClassifyName FROM tb_order tor
+        INNER JOIN tb_goods tg ON tor.goods_id = tg.id
+        INNER JOIN tb_classify tc ON tg.one_classifyid = tc.id
+        WHERE tor.plate_isdelete_flag = 1
+        GROUP BY tg.one_classifyid
+    </select>
+
+    <!--获取对应日期订单销售总金额-->
+    <select id="getSUMGoodsPrice" resultType="java.lang.String">
+        SELECT FORMAT(SUM(goods_actual_price - goods_freight),2) FROM tb_order WHERE order_status = 5 AND TO_DAYS(order_addtime) = TO_DAYS(#{lastData});
+    </select>
+
+    <!--获取对应日期订单供货总价-->
+    <select id="getSUMGoodsSupplyPrice" resultType="java.lang.String">
+        SELECT FORMAT(SUM(goods_supply_price),2) FROM tb_order WHERE order_status = 5 AND TO_DAYS(order_addtime) = TO_DAYS(#{lastData});
+    </select>
+
+    <!--获取两日期之间成交订单销售总金额-->
+    <select id="getSUMGoodsPriceByDataRange" resultType="java.lang.String">
+        SELECT FORMAT(SUM(goods_actual_price - goods_freight),2) FROM tb_order WHERE order_status = 5 AND <![CDATA[order_addtime >= #{weekRangeOne} and order_addtime <= #{weekRangeLast} ]]> ;
+    </select>
+
+    <!--获取两日期之间成交订单供货总价-->
+    <select id="getSUMGoodsSupplyPriceByDataRange" resultType="java.lang.String">
+        SELECT FORMAT(SUM(goods_supply_price),2) FROM tb_order WHERE order_status = 5 AND <![CDATA[order_addtime >= #{weekRangeOne} and order_addtime <= #{weekRangeLast} ]]> ;
+    </select>
+
+    <select id="getSUMOrderByShareProfit" resultType="java.lang.String">
+        SELECT FORMAT(SUM(goods_actual_price) ,2) FROM tb_order WHERE oreder_pay_type = #{orederPayType} AND order_status = #{orderStatus}
+    </select>
+
+    <select id="getSUMOrderByPayType" resultType="java.lang.String">
+        SELECT FORMAT(SUM(goods_actual_price) ,2) FROM tb_order WHERE oreder_pay_type = #{patType} AND order_status = 5
+    </select>
+
+    <select id="getSUMsalesCommission"  resultType="java.lang.String">
+        SELECT FORMAT(SUM(commission),2) FROM tb_order WHERE order_status = 5  AND <![CDATA[order_addtime >= #{lastDataOne} and order_addtime <= #{lastDataLast} ]]> ;
+    </select>
+
+</mapper>

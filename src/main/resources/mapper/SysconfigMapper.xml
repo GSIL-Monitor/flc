@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.SysconfigMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.Sysconfig">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="tourists_shop_discount" property="touristsShopDiscount" jdbcType="INTEGER"/>
+        <result column="withdrawal_charge_per" property="withdrawalChargePer" jdbcType="DOUBLE"/>
+        <result column="boutique_area_per" property="boutiqueAreaPer" jdbcType="DOUBLE"/>
+        <result column="consume_area_per" property="consumeAreaPer" jdbcType="DOUBLE"/>
+        <result column="primary_career_integral_rules" property="primaryCareerIntegralRules" jdbcType="INTEGER"/>
+        <result column="primary_career_continuous_month" property="primaryCareerContinuousMonth" jdbcType="INTEGER"/>
+        <result column="primary_career_personal_integral" property="primaryCareerPersonalIntegral" jdbcType="INTEGER"/>
+        <result column="advanced_career_integral_rules" property="advancedCareerIntegralRules" jdbcType="INTEGER"/>
+        <result column="advanced_career_continuous_month" property="advancedCareerContinuousMonth" jdbcType="INTEGER"/>
+        <result column="advanced_career_personal_integral" property="advancedCareerPersonalIntegral"
+                jdbcType="INTEGER"/>
+        <result column="initiate_career_integral_rules" property="initiateCareerIntegralRules" jdbcType="INTEGER"/>
+        <result column="initiate_career_continuous_month" property="initiateCareerContinuousMonth" jdbcType="INTEGER"/>
+        <result column="initiate_career_personal_integral" property="initiateCareerPersonalIntegral"
+                jdbcType="INTEGER"/>
+        <result column="operating_costs_per" property="operatingCostsPer" jdbcType="DOUBLE"/>
+        <result column="special_contribute_award" property="specialContributeAward" jdbcType="DOUBLE"/>
+        <result column="year_profit_continuous_month" property="yearProfitContinuousMonth" jdbcType="INTEGER"/>
+        <result column="recommend_shop_column" property="recommendShopColumn" jdbcType="DOUBLE"/>
+        <result column="day_profit_per" property="dayProfitPer" jdbcType="DOUBLE"/>
+        <result column="week_profit_per" property="weekProfitPer" jdbcType="DOUBLE"/>
+        <result column="month_profit_per" property="monthProfitPer" jdbcType="DOUBLE"/>
+        <result column="quarter_profit_per" property="quarterProfitPer" jdbcType="DOUBLE"/>
+        <result column="year_profit_per" property="yearProfitPer" jdbcType="DOUBLE"/>
+        <result column="one_partner_per" property="onePartnerPer" jdbcType="DOUBLE"/>
+        <result column="two_partner_per" property="twoPartnerPer" jdbcType="DOUBLE"/>
+        <result column="copyright" property="copyright" jdbcType="VARCHAR"/>
+        <result column="automatic_receiving_time" property="automaticReceivingTime" jdbcType="INTEGER"/>
+        <result column="automatic_evaluate_time" property="automaticEvaluateTime" jdbcType="INTEGER"/>
+        <result column="weixin_pay_flag" property="weixinPayFlag" jdbcType="INTEGER"/>
+        <result column="ali_pay_flag" property="aliPayFlag" jdbcType="INTEGER"/>
+        <result column="unionpay_pay_flag" property="unionpayPayFlag" jdbcType="INTEGER"/>
+        <result column="shareprofit_pay_flag" property="shareprofitPayFlag" jdbcType="INTEGER"/>
+        <result column="sensitive_word" property="sensitiveWord" jdbcType="LONGVARCHAR"/>
+        <result column="keywords" property="keywords" jdbcType="LONGVARCHAR"/>
+        <result column="description" property="description" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, tourists_shop_discount, withdrawal_charge_per, boutique_area_per, consume_area_per, 
+    primary_career_integral_rules, primary_career_continuous_month, primary_career_personal_integral, 
+    advanced_career_integral_rules, advanced_career_continuous_month, advanced_career_personal_integral, 
+    initiate_career_integral_rules, initiate_career_continuous_month, initiate_career_personal_integral, 
+    operating_costs_per, special_contribute_award, year_profit_continuous_month, recommend_shop_column, 
+    day_profit_per, week_profit_per, month_profit_per, quarter_profit_per, year_profit_per, 
+    one_partner_per, two_partner_per, copyright, automatic_receiving_time, automatic_evaluate_time, 
+    weixin_pay_flag, ali_pay_flag, unionpay_pay_flag, shareprofit_pay_flag,sensitive_word, keywords, description
+  </sql>
+    <!--获取支付方式-->
+    <select id="getSysConfig" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from
+            tb_sysconfig
+    </select>
+    <!--修改系统分数（支付方式显示）-->
+    <update id="update_sysConfig" parameterType="com.hrtxn.flchappinessmall.pojo.Sysconfig">
+        update tb_sysconfig
+        <set>
+            <if test="touristsShopDiscount != null">
+                tourists_shop_discount = #{touristsShopDiscount,jdbcType=INTEGER},
+            </if>
+            <if test="withdrawalChargePer != null">
+                withdrawal_charge_per = #{withdrawalChargePer,jdbcType=DOUBLE},
+            </if>
+            <if test="boutiqueAreaPer != null">
+                boutique_area_per = #{boutiqueAreaPer,jdbcType=DOUBLE},
+            </if>
+            <if test="consumeAreaPer != null">
+                consume_area_per = #{consumeAreaPer,jdbcType=DOUBLE},
+            </if>
+            <if test="primaryCareerIntegralRules != null">
+                primary_career_integral_rules = #{primaryCareerIntegralRules,jdbcType=INTEGER},
+            </if>
+            <if test="primaryCareerContinuousMonth != null">
+                primary_career_continuous_month = #{primaryCareerContinuousMonth,jdbcType=INTEGER},
+            </if>
+            <if test="primaryCareerPersonalIntegral != null">
+                primary_career_personal_integral = #{primaryCareerPersonalIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="advancedCareerIntegralRules != null">
+                advanced_career_integral_rules = #{advancedCareerIntegralRules,jdbcType=INTEGER},
+            </if>
+            <if test="advancedCareerContinuousMonth != null">
+                advanced_career_continuous_month = #{advancedCareerContinuousMonth,jdbcType=INTEGER},
+            </if>
+            <if test="advancedCareerPersonalIntegral != null">
+                advanced_career_personal_integral = #{advancedCareerPersonalIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="initiateCareerIntegralRules != null">
+                initiate_career_integral_rules = #{initiateCareerIntegralRules,jdbcType=INTEGER},
+            </if>
+            <if test="initiateCareerContinuousMonth != null">
+                initiate_career_continuous_month = #{initiateCareerContinuousMonth,jdbcType=INTEGER},
+            </if>
+            <if test="initiateCareerPersonalIntegral != null">
+                initiate_career_personal_integral = #{initiateCareerPersonalIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="operatingCostsPer != null">
+                operating_costs_per = #{operatingCostsPer,jdbcType=DOUBLE},
+            </if>
+            <if test="specialContributeAward != null">
+                special_contribute_award = #{specialContributeAward,jdbcType=DOUBLE},
+            </if>
+            <if test="yearProfitContinuousMonth != null">
+                year_profit_continuous_month = #{yearProfitContinuousMonth,jdbcType=INTEGER},
+            </if>
+            <if test="recommendShopColumn != null">
+                recommend_shop_column = #{recommendShopColumn,jdbcType=DOUBLE},
+            </if>
+            <if test="dayProfitPer != null">
+                day_profit_per = #{dayProfitPer,jdbcType=DOUBLE},
+            </if>
+            <if test="weekProfitPer != null">
+                week_profit_per = #{weekProfitPer,jdbcType=DOUBLE},
+            </if>
+            <if test="monthProfitPer != null">
+                month_profit_per = #{monthProfitPer,jdbcType=DOUBLE},
+            </if>
+            <if test="quarterProfitPer != null">
+                quarter_profit_per = #{quarterProfitPer,jdbcType=DOUBLE},
+            </if>
+            <if test="yearProfitPer != null">
+                year_profit_per = #{yearProfitPer,jdbcType=DOUBLE},
+            </if>
+            <if test="onePartnerPer != null">
+                one_partner_per = #{onePartnerPer,jdbcType=DOUBLE},
+            </if>
+            <if test="twoPartnerPer != null">
+                two_partner_per = #{twoPartnerPer,jdbcType=DOUBLE},
+            </if>
+            <if test="copyright != null">
+                copyright = #{copyright,jdbcType=VARCHAR},
+            </if>
+            <if test="automaticReceivingTime != null">
+                automatic_receiving_time = #{automaticReceivingTime,jdbcType=INTEGER},
+            </if>
+            <if test="automaticEvaluateTime != null">
+                automatic_evaluate_time = #{automaticEvaluateTime,jdbcType=INTEGER},
+            </if>
+            <if test="weixinPayFlag != null">
+                weixin_pay_flag = #{weixinPayFlag,jdbcType=INTEGER},
+            </if>
+            <if test="aliPayFlag != null">
+                ali_pay_flag = #{aliPayFlag,jdbcType=INTEGER},
+            </if>
+            <if test="unionpayPayFlag != null">
+                unionpay_pay_flag = #{unionpayPayFlag,jdbcType=INTEGER},
+            </if>
+            <if test="shareprofitPayFlag != null">
+                shareprofit_pay_flag = #{shareprofitPayFlag,jdbcType=INTEGER},
+            </if>
+            <if test="sensitiveWord != null">
+                sensitive_word = #{sensitiveWord,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="keywords != null">
+                keywords = #{keywords,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

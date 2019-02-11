@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.Role">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="tips" property="tips" jdbcType="VARCHAR"/>
+        <result column="addtime" property="addtime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <!-- 封装admin-->
+    <resultMap id="BaseResultMapAdmin" type="com.hrtxn.flchappinessmall.pojo.Admin">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="admin_nick_name" jdbcType="VARCHAR" property="adminNickName"/>
+        <result column="admin_addtime" jdbcType="VARCHAR" property="adminAddtime"/>
+        <result column="admin_password" jdbcType="VARCHAR" property="adminPassword"/>
+        <result column="admin_true_name" jdbcType="VARCHAR" property="adminTrueName"/>
+        <result column="admin_tel" jdbcType="VARCHAR" property="adminTel"/>
+        <result column="admin_jurisdictionid" jdbcType="INTEGER" property="adminJurisdictionid"/>
+        <result column="admin_remark" jdbcType="LONGVARCHAR" property="adminRemark"/>
+        <result column="admin_lastlogintime" jdbcType="VARCHAR" property="adminLastLoginTime"/>
+        <result column="admin_loginIP" jdbcType="VARCHAR" property="adminLoginIP"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+    id, name, tips,addtime
+  </sql>
+
+    <!--根据角色Id获取 所拥有该角色的管理员集合-->
+    <select id="selectAdminListByRoleId" resultMap="BaseResultMapAdmin">
+SELECT
+tb_admin.id AS id,
+tb_admin.admin_nick_name AS admin_nick_name,
+tb_admin.admin_addtime AS admin_addtime,
+tb_admin.admin_password AS admin_password,
+tb_admin.admin_true_name AS admin_true_name,
+tb_admin.admin_tel AS admin_tel,
+tb_admin.admin_jurisdictionid AS admin_jurisdictionid,
+tb_admin.admin_remark AS admin_remark,
+tb_admin.admin_lastlogintime AS admin_lastlogintime,
+tb_admin.admin_loginIP AS admin_loginIP
+FROM
+tb_role
+INNER JOIN tb_admin_role ON tb_role.id = tb_admin_role.role_id
+INNER JOIN tb_admin ON tb_admin_role.admin_id = tb_admin.id
+WHERE
+tb_role.id = #{roleId}
+    </select>
+
+
+    <!--根据角色Id获取改角色拥有的菜单Menu-->
+    <select id="selectMunuByRoleId" resultType="com.hrtxn.flchappinessmall.pojo.Menu">
+        SELECT
+            tb_menu.id AS id,
+            tb_menu.`name` AS name,
+            tb_menu.url AS url,
+            tb_menu.pid AS pid
+          FROM
+            tb_relation
+        left JOIN tb_menu ON tb_relation.menuid = tb_menu.id
+         WHERE
+            tb_relation.roleid =#{roleId}
+    </select>
+
+    <!--<select id="selectRoleVo" parameterType="com.hrtxn.flchappinessmall.pojo.pojoVo.RoleVo">-->
+    <!--SELECT-->
+    <!--tb_role.id AS id,-->
+    <!--tb_role.`name` AS name,-->
+    <!--tb_role.tips AS tips,-->
+    <!--tb_role.addtime	AS addtime,-->
+    <!--GROUP_CONCAT(tb_admin.admin_nick_name) AS adminNameS-->
+    <!--FROM-->
+    <!--tb_role-->
+    <!--LEFT JOIN tb_admin ON tb_role.id = tb_admin.admin_role_id-->
+    <!--GROUP BY-->
+    <!--tb_role.id-->
+    <!--</select>-->
+
+
+    <!--根据Id获取角色信息-->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_role
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!--获取全部角色-->
+    <select id="selectRoleAll" resultType="com.hrtxn.flchappinessmall.pojo.pojoVo.RoleVo">
+         SELECT
+            tb_role.id AS id,
+            tb_role.`name` AS `name`,
+            tb_role.tips AS tips,
+            tb_role.addtime AS addtime,
+            GROUP_CONCAT(tb_admin.admin_nick_name) AS adminNameS,
+          Count(tb_admin.id) AS adminSum /*使用当前角色的用户数量*/
+          FROM tb_role
+          LEFT JOIN tb_admin ON tb_role.id = tb_admin.admin_role_id
+          GROUP BY
+            tb_role.id
+    </select>
+
+    <!--根据主键删除角色-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+
+    <insert id="insert" parameterType="com.hrtxn.flchappinessmall.pojo.Role">
+    insert into tb_role (id,name, tips,addtime)
+    values (#{id,jdbcType=INTEGER}, #{jdbcType=INTEGER},
+      #{name,jdbcType=VARCHAR},  #{tips,jdbcType=VARCHAR},#{addtime,jdbcType=VARCHAR}  </insert>
+
+    <!--添加数据 动态sql-->
+    <insert id="insertSelective" parameterType="com.hrtxn.flchappinessmall.pojo.Role">
+        insert into tb_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+
+            <if test="name != null">
+                name,
+            </if>
+            <if test="tips != null">
+                tips,
+            </if>
+            <if test="addtime != null">
+                addtime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="tips != null">
+                #{tips,jdbcType=VARCHAR},
+            </if>
+            <if test="addtime != null">
+                #{addtime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--修改角色 动态sql-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.hrtxn.flchappinessmall.pojo.Role">
+        update tb_role
+        <set>
+
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+
+            <if test="tips != null">
+                tips = #{tips,jdbcType=VARCHAR},
+            </if>
+            <if test="addtime != null">
+                addtime = #{addtime,jdbcType=VARCHAR},
+            </if>
+
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hrtxn.flchappinessmall.pojo.Role">
+    update tb_role
+    set name = #{name,jdbcType=VARCHAR},
+      tips = #{tips,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

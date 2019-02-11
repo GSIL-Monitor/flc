@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.TransferLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.TransferLog">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="transfer_addtime" property="transferAddtime" jdbcType="VARCHAR"/>
+        <result column="transfer_userid" property="transferUserid" jdbcType="INTEGER"/>
+        <result column="transfer_money" property="transferMoney" jdbcType="REAL"/>
+        <result column="transfer_recevier_tel" property="transferRecevierTel" jdbcType="VARCHAR"/>
+        <result column="transfer_receiver_userid" property="transferReceiverUserid" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, transfer_addtime, transfer_userid, transfer_money, transfer_recevier_tel,transfer_receiver_userid
+    </sql>
+
+    <select id="getTransferLogList" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT tt.id, transfer_addtime, transfer_userid, transfer_money, transfer_recevier_tel,transfer_receiver_userid ,tu.user_nick AS userNick
+        FROM tb_transfer_log tt
+        INNER JOIN tb_user tu ON tt.transfer_userid = tu.id
+    </select>
+
+</mapper>

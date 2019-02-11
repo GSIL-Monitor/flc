@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.MuenMapper">
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.Menu">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="pid" property="pid" jdbcType="INTEGER"/>
+        <result column="pcode" property="pcode" jdbcType="VARCHAR"/>
+        <result column="pcodes" property="pcodes" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMapS" type="com.hrtxn.flchappinessmall.pojo.pojoVo.MenuVo">
+        <id column="zeromenuid" property="id" jdbcType="BIGINT"/>
+        <result column="zeromenuname" property="name" jdbcType="VARCHAR"/>
+        <result column="zeromenuurl" property="url" jdbcType="VARCHAR"/>
+        <result column="zeromenupid" property="pid" jdbcType="INTEGER"/>
+
+            <collection property="menuVoList" ofType="com.hrtxn.flchappinessmall.pojo.pojoVo.MenuVo" column="onemenuid">
+                <id column="onemenuid" property="id"/><!-- 这里的column对应的是下面查询的别名，而不是表字段名 -->
+                <result column="onemenuname" property="name" jdbcType="VARCHAR"/>
+                <result column="onemenuurl" property="url" jdbcType="VARCHAR"/>
+                <result column="onemenupid" property="pid" jdbcType="INTEGER"/>
+                <collection property="menuVoList" ofType="com.hrtxn.flchappinessmall.pojo.pojoVo.MenuVo" column="twomenuid">
+                    <id column="twomenuid" property="id"/><!-- 这里的column对应的是下面查询的别名，而不是表字段名 -->
+                    <result column="twomenuname" property="name" jdbcType="VARCHAR"/>
+                    <result column="twomenuurl" property="url" jdbcType="VARCHAR"/>
+                    <result column="twomenupid" property="pid" jdbcType="INTEGER"/>
+                </collection>
+            </collection>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+    id, code, pid, pcode, pcodes, name, url
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_menu
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!--查询所有菜单 并且根据等级封装-->
+    <select id="selectMenuAll" resultMap="BaseResultMapS">
+    SELECT
+zeromenu.id AS zeromenuid,
+zeromenu.`name` AS zeromenuname,
+zeromenu.url AS zeromenuurl,
+zeromenu.pid AS zeromenupid,
+
+onemenu.id AS onemenuid,
+onemenu.`name` AS onemenuname,
+onemenu.url AS onemenuurl,
+onemenu.pid AS onemenupid,
+
+twomenu.id AS twomenuid,
+twomenu.`name` AS twomenuname,
+twomenu.url AS twomenuurl,
+twomenu.pid AS twomenupid
+FROM
+tb_menu AS zeromenu
+left JOIN tb_menu AS onemenu ON zeromenu.id = onemenu.pid
+left JOIN tb_menu AS twomenu ON onemenu.id = twomenu.pid
+WHERE
+zeromenu.pid = 169
+
+</select>
+
+
+    <delete id="deleteByPrimaryKey">
+    delete from tb_menu
+    where id = #{id}
+  </delete>
+    <insert id="insert" parameterType="com.hrtxn.flchappinessmall.pojo.Menu">
+    insert into tb_menu (id, code, pid,
+      pcode, pcodes, name,
+      url)
+    values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER},
+      #{pcode,jdbcType=VARCHAR}, #{pcodes,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{url,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.hrtxn.flchappinessmall.pojo.Menu">
+        insert into tb_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="pcode != null">
+                pcode,
+            </if>
+            <if test="pcodes != null">
+                pcodes,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="pcode != null">
+                #{pcode,jdbcType=VARCHAR},
+            </if>
+            <if test="pcodes != null">
+                #{pcodes,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hrtxn.flchappinessmall.pojo.Menu">
+        update tb_menu
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="pcode != null">
+                pcode = #{pcode,jdbcType=VARCHAR},
+            </if>
+            <if test="pcodes != null">
+                pcodes = #{pcodes,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hrtxn.flchappinessmall.pojo.Menu">
+    update tb_menu
+    set code = #{code,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=INTEGER},
+      pcode = #{pcode,jdbcType=VARCHAR},
+      pcodes = #{pcodes,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+    <!--====================================================================================
+======================================添加查看url开始======================================
+====================================================================================-->
+    <select id="selectMenuZero" resultType="com.hrtxn.flchappinessmall.pojo.Menu">
+    select
+id, code, pid, pcode, pcodes, name, url
+    from tb_menu
+    where pid = 169
+    order by id desc
+  </select>
+
+
+    <select id="selectMenuOne" resultType="com.hrtxn.flchappinessmall.pojo.Menu">
+    select
+id, code, pid, pcode, pcodes, name, url
+    from tb_menu
+    where pid = #{pid}
+    order by id desc
+  </select>
+
+    <select id="getMenuTwo" resultMap="BaseResultMap">
+        select
+       id, code, pid, pcode, pcodes, name, url
+        from tb_menu
+        where pid = #{pid}
+        order by id desc
+    </select>
+
+    <select id="getMenuThree" resultMap="BaseResultMap">
+        select
+     id, code, pid, pcode, pcodes, name, url
+        from tb_menu
+        where pid = #{pid}
+        order by id desc
+    </select>
+
+    <!--====================================================================================
+    =========================================添加查看url结束==================================
+    ====================================================================================-->
+</mapper>

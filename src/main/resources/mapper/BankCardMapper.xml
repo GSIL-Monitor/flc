@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.BankCardMapper" >
+  <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.BankCard" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="card_user_name" property="cardUserName" jdbcType="VARCHAR" />
+    <result column="card_name" property="cardName" jdbcType="VARCHAR" />
+    <result column="card_count" property="cardCount" jdbcType="VARCHAR" />
+    <result column="card_user_tel" property="cardUserTel" jdbcType="VARCHAR" />
+    <result column="card_address" property="cardAddress" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, card_user_name, card_name, card_count, card_user_tel, card_address, user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_bank_card
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_bank_card
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hrtxn.flchappinessmall.pojo.BankCard" >
+    insert into tb_bank_card (id, card_user_name, card_name, 
+      card_count, card_user_tel, card_address, 
+      user_id)
+    values (#{id,jdbcType=INTEGER}, #{cardUserName,jdbcType=VARCHAR}, #{cardName,jdbcType=VARCHAR}, 
+      #{cardCount,jdbcType=VARCHAR}, #{cardUserTel,jdbcType=VARCHAR}, #{cardAddress,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hrtxn.flchappinessmall.pojo.BankCard" >
+    insert into tb_bank_card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cardUserName != null" >
+        card_user_name,
+      </if>
+      <if test="cardName != null" >
+        card_name,
+      </if>
+      <if test="cardCount != null" >
+        card_count,
+      </if>
+      <if test="cardUserTel != null" >
+        card_user_tel,
+      </if>
+      <if test="cardAddress != null" >
+        card_address,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cardUserName != null" >
+        #{cardUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardName != null" >
+        #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardCount != null" >
+        #{cardCount,jdbcType=VARCHAR},
+      </if>
+      <if test="cardUserTel != null" >
+        #{cardUserTel,jdbcType=VARCHAR},
+      </if>
+      <if test="cardAddress != null" >
+        #{cardAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrtxn.flchappinessmall.pojo.BankCard" >
+    update tb_bank_card
+    <set >
+      <if test="cardUserName != null" >
+        card_user_name = #{cardUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardName != null" >
+        card_name = #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardCount != null" >
+        card_count = #{cardCount,jdbcType=VARCHAR},
+      </if>
+      <if test="cardUserTel != null" >
+        card_user_tel = #{cardUserTel,jdbcType=VARCHAR},
+      </if>
+      <if test="cardAddress != null" >
+        card_address = #{cardAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrtxn.flchappinessmall.pojo.BankCard" >
+    update tb_bank_card
+    set card_user_name = #{cardUserName,jdbcType=VARCHAR},
+      card_name = #{cardName,jdbcType=VARCHAR},
+      card_count = #{cardCount,jdbcType=VARCHAR},
+      card_user_tel = #{cardUserTel,jdbcType=VARCHAR},
+      card_address = #{cardAddress,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

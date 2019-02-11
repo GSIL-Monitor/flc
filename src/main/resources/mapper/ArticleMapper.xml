@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.ArticleMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.Article">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="article_title" property="articleTitle" jdbcType="VARCHAR"/>
+        <result column="article_addtime" property="articleAddtime" jdbcType="VARCHAR"/>
+        <result column="article_type" property="articleType" jdbcType="INTEGER"/>
+        <result column="article_author" property="articleAuthor" jdbcType="VARCHAR"/>
+        <result column="article_content" property="articleContent" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, article_title, article_addtime, article_type, article_author, article_content
+    </sql>
+
+    <!--获取所有文章-->
+    <select id="getAllArticles" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List"/>
+        FROM
+            tb_article
+    </select>
+
+    <!--获取文章详情页-->
+    <select id="go_articleDetail" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List"/>
+        FROM
+            tb_article
+        WHERE
+            id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!--删除文章-->
+    <delete id="delete_article" parameterType="java.lang.Integer">
+        DELETE FROM
+            tb_article
+        WHERE
+            id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!--添加文章-->
+    <insert id="add_article" parameterType="com.hrtxn.flchappinessmall.pojo.Article">
+        insert into tb_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="articleTitle != null">
+                article_title,
+            </if>
+            <if test="articleAddtime != null">
+                article_addtime,
+            </if>
+            <if test="articleType != null">
+                article_type,
+            </if>
+            <if test="articleAuthor != null">
+                article_author,
+            </if>
+            <if test="articleContent != null">
+                article_content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="articleTitle != null">
+                #{articleTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="articleAddtime != null">
+                #{articleAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="articleType != null">
+                #{articleType,jdbcType=INTEGER},
+            </if>
+            <if test="articleAuthor != null">
+                #{articleAuthor,jdbcType=VARCHAR},
+            </if>
+            <if test="articleContent != null">
+                #{articleContent,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--修改文章信息-->
+    <update id="update_article" parameterType="com.hrtxn.flchappinessmall.pojo.Article">
+        update tb_article
+        <set>
+            <if test="articleTitle != null">
+                article_title = #{articleTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="articleAddtime != null">
+                article_addtime = #{articleAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="articleType != null">
+                article_type = #{articleType,jdbcType=INTEGER},
+            </if>
+            <if test="articleAuthor != null">
+                article_author = #{articleAuthor,jdbcType=VARCHAR},
+            </if>
+            <if test="articleContent != null">
+                article_content = #{articleContent,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

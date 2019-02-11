@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrtxn.flchappinessmall.mapper.AdminMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrtxn.flchappinessmall.pojo.Admin">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="admin_nick_name" jdbcType="VARCHAR" property="adminNickName"/>
+        <result column="admin_addtime" jdbcType="VARCHAR" property="adminAddtime"/>
+        <result column="admin_password" jdbcType="VARCHAR" property="adminPassword"/>
+        <result column="admin_true_name" jdbcType="VARCHAR" property="adminTrueName"/>
+        <result column="admin_tel" jdbcType="VARCHAR" property="adminTel"/>
+        <result column="admin_jurisdictionid" jdbcType="INTEGER" property="adminJurisdictionid"/>
+        <result column="admin_remark" jdbcType="LONGVARCHAR" property="adminRemark"/>
+        <result column="admin_lastlogintime" jdbcType="VARCHAR" property="adminLastLoginTime"/>
+        <result column="admin_loginIP" jdbcType="VARCHAR" property="adminLoginIP"/>
+        <result column="admin_role_id" property="adminRoleId"/>
+    </resultMap>
+
+    <!--AdminVo-->
+    <resultMap id="BaseResultMaps" type="com.hrtxn.flchappinessmall.pojo.pojoVo.AdminVo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="admin_nick_name" jdbcType="VARCHAR" property="adminNickName"/>
+        <result column="admin_addtime" jdbcType="VARCHAR" property="adminAddtime"/>
+        <result column="admin_password" jdbcType="VARCHAR" property="adminPassword"/>
+        <result column="admin_true_name" jdbcType="VARCHAR" property="adminTrueName"/>
+        <result column="admin_tel" jdbcType="VARCHAR" property="adminTel"/>
+        <result column="admin_jurisdictionid" jdbcType="INTEGER" property="adminJurisdictionid"/>
+        <result column="admin_remark" jdbcType="LONGVARCHAR" property="adminRemark"/>
+        <result column="admin_lastlogintime" jdbcType="VARCHAR" property="adminLastLoginTime"/>
+        <result column="admin_loginIP" jdbcType="VARCHAR" property="adminLoginIP"/>
+        <result column="admin_role_id" property="adminRoleId"/>
+        <result column="roleName" property="roleName"/>
+    </resultMap>
+    <!--AdminVos      包含admin拥有的Menu菜单-->
+    <resultMap id="adminResultMap" type="com.hrtxn.flchappinessmall.pojo.pojoVo.AdminVo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="admin_nick_name" jdbcType="VARCHAR" property="adminNickName"/>
+        <result column="admin_addtime" jdbcType="VARCHAR" property="adminAddtime"/>
+        <result column="admin_password" jdbcType="VARCHAR" property="adminPassword"/>
+        <result column="admin_true_name" jdbcType="VARCHAR" property="adminTrueName"/>
+        <result column="admin_tel" jdbcType="VARCHAR" property="adminTel"/>
+        <result column="admin_jurisdictionid" jdbcType="INTEGER" property="adminJurisdictionid"/>
+        <result column="admin_remark" jdbcType="LONGVARCHAR" property="adminRemark"/>
+        <result column="admin_lastlogintime" jdbcType="VARCHAR" property="adminLastLoginTime"/>
+        <result column="admin_loginIP" jdbcType="VARCHAR" property="adminLoginIP"/>
+        <result column="admin_role_id" property="adminRoleId"/>
+
+        <collection property="menuVoList" ofType="com.hrtxn.flchappinessmall.pojo.pojoVo.MenuVo" column="mid">
+            <id column="mid" property="id"/><!-- 这里的column对应的是下面查询的别名，而不是表字段名 -->
+            <result column="name" property="name" jdbcType="VARCHAR"/>
+            <result column="url" property="url" jdbcType="VARCHAR"/>
+            <result column="pid" property="pid" jdbcType="INTEGER"/>
+        </collection>
+
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, admin_nick_name, admin_addtime, admin_password, admin_true_name, admin_tel, admin_jurisdictionid,admin_remark,admin_lastlogintime,admin_loginIP,admin_role_id
+    </sql>
+
+
+    <sql id="adminCloum">
+
+        tb_admin.id AS id,
+tb_admin.admin_nick_name AS admin_nick_name,
+tb_admin.admin_addtime AS admin_addtime,
+tb_admin.admin_password AS admin_password,
+tb_admin.admin_true_name AS admin_true_name,
+tb_admin.admin_tel AS admin_tel,
+tb_admin.admin_jurisdictionid AS admin_jurisdictionid,
+tb_admin.admin_remark AS admin_remark,
+tb_admin.admin_lastlogintime AS admin_lastlogintime,
+tb_admin.admin_loginIP AS admin_loginIP,
+tb_admin.admin_role_id AS  admin_role_id,
+tb_role.`name` As roleName
+    </sql>
+
+    <!--根据用户名查询用户 返回的用户包含menu菜单对象-->
+    <select id="selectAdminByNickName" resultMap="adminResultMap">
+        SELECT
+                tb_admin.id AS id,
+        tb_admin.admin_nick_name AS admin_nick_name,
+        tb_admin.admin_addtime AS admin_addtime,
+        tb_admin.admin_password AS admin_password,
+        tb_admin.admin_true_name AS admin_true_name,
+        tb_admin.admin_tel AS admin_tel,
+        tb_admin.admin_jurisdictionid AS admin_jurisdictionid,
+        tb_admin.admin_remark AS admin_remark,
+        tb_admin.admin_lastlogintime AS admin_lastlogintime,
+        tb_admin.admin_loginIP AS admin_loginIP,
+        tb_admin.admin_role_id AS  admin_role_id,
+
+        tb_menu.id AS mid,
+        tb_menu.`name` AS name,
+        tb_menu.url AS url,
+        tb_menu.pid AS pid
+        FROM
+        tb_admin
+        left JOIN tb_role ON tb_admin.admin_role_id = tb_role.id
+        left JOIN tb_relation ON tb_role.id = tb_relation.roleid
+        left JOIN tb_menu ON tb_relation.menuid = tb_menu.id
+        WHERE
+        tb_admin.admin_nick_name = #{adminNickName}
+    </select>
+
+
+    <!--查询所有管理员-->
+    <select id="selectAdminAll" resultMap="BaseResultMaps">
+        SELECT
+        <include refid="adminCloum"></include>
+        FROM
+        tb_admin
+        INNER JOIN tb_role ON tb_admin.admin_role_id = tb_role.id
+    </select>
+
+    <!--查询所有管理员-->
+    <select id="selectAdminById" resultMap="BaseResultMaps">
+        SELECT
+        <include refid="adminCloum"></include>
+        FROM
+        tb_admin
+        INNER JOIN tb_role ON tb_admin.admin_role_id = tb_role.id
+        where tb_admin.id=#{id}
+
+    </select>
+
+
+    <!--根据id删除用户-->
+    <delete id="delectAdminById">
+        delete  from
+        tb_admin
+        where id=#{id}
+    </delete>
+
+    <!--查询每个管理员拥有用户数量 -->
+    <select id="selectRoleSum" resultType="com.hrtxn.flchappinessmall.pojo.pojoVo.RoleVo">
+ SELECT
+	count(tb_role.id) as adminSum,
+	tb_role.id AS id,
+	tb_role.`name` as name
+FROM
+	tb_admin
+INNER JOIN tb_role ON tb_admin.admin_role_id = tb_role.id
+GROUP BY
+	tb_admin.admin_role_id
+    </select>
+
+
+    <!--根据角色Id获取管理员集合-->
+    <select id="selectAdminByRoleId" resultMap="BaseResultMap">
+        SELECT
+id,
+admin_nick_name,
+admin_addtime,
+admin_password,
+admin_true_name,
+admin_tel,
+admin_jurisdictionid,
+admin_remark,
+admin_lastlogintime,
+admin_loginIP,
+admin_role_id
+FROM
+tb_admin
+WHERE
+admin_role_id=#{roleId}
+
+    </select>
+
+    <!--=========================================================================================-->
+    <!--====================================分割线================================================-->
+    <!--=========================================================================================-->
+
+
+    <!--执行登录操作-->
+    <select id="admin_login" parameterType="string" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        tb_admin
+        WHERE
+        admin_nick_name = #{adminNickName} AND admin_password = #{adminPassword}
+    </select>
+
+
+    <update id="updateAdmin" parameterType="com.hrtxn.flchappinessmall.pojo.Admin">
+        update tb_admin
+        <set>
+            <if test="adminNickName != null">
+                admin_nick_name = #{adminNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="adminPassword != null">
+                admin_password = #{adminPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="adminTrueName != null">
+                admin_true_name = #{adminTrueName,jdbcType=VARCHAR},
+            </if>
+            <if test="adminTel != null">
+                admin_tel = #{adminTel,jdbcType=VARCHAR},
+            </if>
+            <if test="adminJurisdictionid != null">
+                admin_jurisdictionid = #{adminJurisdictionid,jdbcType=INTEGER},
+            </if>
+            <if test="adminRemark != null">
+                admin_remark = #{adminRemark,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="adminLastLoginTime != null">
+                admin_lastlogintime = #{adminLastLoginTime,jdbcType=VARCHAR},
+            </if>
+            <if test="adminLoginIP != null">
+                admin_loginIP = #{adminLoginIP,jdbcType=VARCHAR},
+            </if>
+            <if test="adminRoleId != null">
+                admin_role_id = #{adminRoleId},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--根据ID获取管理员信息-->
+    <select id="getAdminMSGById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT ta.*, tr.name AS NAME FROM tb_admin ta INNER JOIN tb_role tr ON ta.admin_jurisdictionid = tr.id WHERE ta.id = ${id}
+    </select>
+
+
+    <insert id="addAdmin" parameterType="com.hrtxn.flchappinessmall.pojo.Admin">
+        insert into tb_admin
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="adminNickName != null">
+                admin_nick_name,
+            </if>
+            <if test="adminAddtime != null">
+                admin_addtime,
+            </if>
+            <if test="adminPassword != null">
+                admin_password,
+            </if>
+            <if test="adminTrueName != null">
+                admin_true_name,
+            </if>
+            <if test="adminTel != null">
+                admin_tel,
+            </if>
+            <if test="adminJurisdictionid != null">
+                admin_jurisdictionid,
+            </if>
+
+            <if test="adminRoleId != null">
+                admin_role_id,
+            </if>
+            <if test="adminRemark != null">
+                admin_remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="adminNickName != null">
+                #{adminNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="adminAddtime != null">
+                #{adminAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="adminPassword != null">
+                #{adminPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="adminTrueName != null">
+                #{adminTrueName,jdbcType=VARCHAR},
+            </if>
+            <if test="adminTel != null">
+                #{adminTel,jdbcType=VARCHAR},
+            </if>
+            <if test="adminJurisdictionid != null">
+                #{adminJurisdictionid,jdbcType=INTEGER},
+            </if>
+
+            <if test="adminRoleId != null">
+                #{adminRoleId,jdbcType=INTEGER},
+            </if>
+            <if test="adminRemark != null">
+                #{adminRemark,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+
+</mapper>

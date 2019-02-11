@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.2.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+       http://www.springframework.org/schema/task
+	   http://www.springframework.org/schema/task/spring-task-4.2.xsd">
+
+    <!-- 配置spring定时器 -->
+    <task:annotation-driven/>
+    <context:component-scan base-package="com.hrtxn.flchappinessmall.*"/>
+
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"></bean>
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=utf-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+
+    <!-- 扫描controller -->
+    <context:component-scan base-package="com.hrtxn.flchappinessmall.controller"></context:component-scan>
+
+    <!-- 静态资源 -->
+    <mvc:resources mapping="/static/**" location="/static/admin/"></mvc:resources>
+    <!-- 视图解析 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"></property>
+        <property name="suffix" value=""></property>
+    </bean>
+
+    <!-- 文件上传 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    </bean>
+
+
+    <!-- 启动shiro注解 -->
+    <!-- Shiro生命周期处理器-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+    <!-- spring自动代理类-->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor"><!-- depends-on属性指定bean前置依赖的bean,前置依赖的bean会在本bean实例化之前创建好 -->
+    </bean>
+    <!-- shiro实现的spring通知类 -->
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <!--<mvc:view-controller path="/showList" view-name="userlist"/>-->
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.hrtxn.flchappinessmall.interceptor.SecurityInterceptor">
+                <!--不需要权限验证的地址-->
+                <property name="excludeUrls">
+                    <list>
+                        <value>/admin/admin_index</value> <!--登录页面-->
+                        <value>/admin/admin_login</value> <!--登录请求-->
+                        <value>/admin/login_out</value> <!--退出请求-->
+
+                        <!--======================添加权限使用到的url======================-->
+                        <value>/menu/gozeromenu</value>
+                        <value>/menu/addzeromenu</value>
+                        <value>/menu/goaddmenuone</value>
+                        <value>/menu/addMenu</value>
+                        <value>/menu/goaddmenutwo</value>
+                        <value>/menu/addmenutwo</value>
+                        <value>/menu/goaddmenuthree</value>
+                        <!--============================添加权限使用到的url===================-->
+                    </list>
+                </property>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+
+</beans>
