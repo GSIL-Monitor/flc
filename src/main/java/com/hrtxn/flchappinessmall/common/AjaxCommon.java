@@ -7,7 +7,7 @@ package com.hrtxn.flchappinessmall.common;
  */
 public interface AjaxCommon {
     /**
-     * 請求成功
+     * 請求成功123
      */
     Integer RES_TRUE=2000;
     /**
